@@ -1,0 +1,39 @@
+{
+  "name": "bmw-hackathon",
+  "description": "BMW Hackathon",
+  "version": "0.1.0",
+  "author": {
+    "name": "Brendan Nee",
+    "email": "me@bn.ee"
+  },
+  "dependencies": {
+    "async": "~0.9.0",
+    "body-parser": "~1.10.1",
+    "connect-redis": "~2.1.0",
+    "debug": "~2.1.1",
+    "express": "~4.10.7",
+    "express-session": "~1.10.0",
+    "gulp": "~3.8.10",
+    "gulp-bower": "~0.0.7",
+    "gulp-jshint": "~1.9.0",
+    "gulp-load-plugins": "~0.8.0",
+    "gulp-nodemon": "~1.0.4",
+    "jade": "~1.8.2",
+    "moment-timezone": "~0.2.5",
+    "monk": "~0.9.1",
+    "morgan": "~1.5.1",
+    "nconf": "~0.7.1",
+    "request": "~2.51.0",
+    "serve-favicon": "~2.2.0",
+    "simple-oauth2": "~0.2.x",
+    "underscore": "~1.7.0"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "postinstall": "node node_modules/.bin/gulp bower"
+  }
+}

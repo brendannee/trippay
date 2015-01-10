@@ -1,0 +1,36 @@
+body {
+  font-family: Avenir;
+  color: #737c81;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+  font-weight: normal;
+}
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 24px;
+}
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 20px;
+}
+h3 {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: bold;
+}
+h4 {
+  font-size: 14px;
+}
+h5 {
+  font-size: 12px;
+}
+a {
+  color: #2c3032;
+}
+a:hover {
+  text-decoration: none;
+  color: #82C9F1;
+}
