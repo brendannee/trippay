@@ -14,10 +14,9 @@ body.login {
 }
 
 #logout {
-  color: white;
+  color: #d38a00;
   float: right;
-  padding: 40px 10px 0 0;
-  font-weight: bold;
+  padding: 5px 10px 0 0;
 }
 
 #trip {
