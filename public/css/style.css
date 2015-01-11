@@ -88,7 +88,7 @@ body.login {
 .sign-in-venmo .btn,
 .sign-in-bmw .btn {
   text-align: left;
-  padding-left: 34px;
+  padding-left: 34px !important;
 }
 
 .sign-in-bmw {
