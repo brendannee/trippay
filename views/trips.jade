@@ -15,20 +15,21 @@ block content
       button.btn.btn-default.btn-add-friend Add
       
     .mileageCostContainer
-      label Cost Per Mile
+      label.allcapsLabel Cost Per Mile
       .mileageRate
       .mileageRateSliderContainer
         span.mileageLabel 0
         input.mileageRateSlider
         span.mileageLabel 1.00
+    
+    .splitPeopleContainer  
+      label.splitBetweenLabel.allcapsLabel Split Between  
+      .includeSelfContainer
+        label Include self?
+        input.includeSelf(type="checkbox" checked)
+      .splitList
       
-    label.splitBetweenLabel Split Between  
-    .includeSelfContainer
-      label Include self?
-      input.includeSelf(type="checkbox" checked)
-    .splitList
-      
-    .btn.btn-orange.center-block.btn-request-payment Request Payment
+      .btn.btn-orange.center-block.btn-request-payment Request Payment
     
   #success.hide
     h1.success-header Success
