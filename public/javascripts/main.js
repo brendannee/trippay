@@ -9,14 +9,18 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiYXV0b21hdGljIiwiYSI6IldFaGdQa2MifQ.Q-jIc0Ejcd
 
 
 var tripTemplate = _.template($('#tripTemplate').html()),
+    friendTemplate = _.template($('#friendTemplate').html()),
+    me = {},
     trips = [],
     friends = [],
+    selectedTrip,
     map;
 
 // user settings
 var mileageRate = 0.56;
 
 fetchFriends(renderFriends);
+fetchMe(renderMe);
 fetchTrips(renderTrips);
 renderSettings();
 
@@ -32,70 +36,41 @@ $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
 
 
 $('.btn-select-trip').click(function() {
+  selectedTrip = $('#trip').data('trip');
+
   $('#selectTrip').slideUp();
   $('#selectFriends').removeClass('hide');
 
-  $('.mileageRateSlider').slider({
-    min: 0,
-    max: 1,
-    step: 0.01,
-    formater: formatCost,
-    value: mileageRate,
-    tooltip: 'show'
-  }).on('change', function() {
-    mileageRate = $(this).slider('getValue');
-    renderSettings();
-  });
+  initializeSlider();
+  initializeTypeahead();
+  calculateSplit();
+});
 
-  var substringMatcher = function(strs) {
-    return function findMatches(q, cb) {
-      var matches, substrRegex;
 
-      // an array that will be populated with substring matches
-      matches = [];
+$('.btn-add-friend').click(function() {
+  var friendName = $('.friendEmail').typeahead('val'),
+      friend = _.findWhere(friends, {display_name: friendName}),
+      friendDiv = friendTemplate(friend);
 
-      // regex used to determine if a string contains the substring `q`
-      substrRegex = new RegExp(q, 'i');
+  $(friendDiv)
+    .data('friend', friend)
+    .appendTo('.splitList');
 
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function(i, str) {
-        if (substrRegex.test(str)) {
-          // the typeahead jQuery plugin expects suggestions to a
-          // JavaScript object, refer to typeahead docs for more info
-          matches.push({ value: str });
-        }
-      });
-
-      cb(matches);
-    };
-  };
-
-  function getTokens() {
-    var tokens = [];
-    friends.forEach(function(friend) {
-      tokens.push(friend.display_name);
-    });
-    return tokens;
-  }
-
-  $('.friendEmail').typeahead({
-    hint: true,
-    highlight: true,
-    minLength: 1
-  },
-  {
-    name: 'friends',
-    displayKey: 'value',
-    source: substringMatcher(getTokens())
-  });
-
+  calculateSplit();
 });
 
 
 function renderFriends(data) {
   friends = data;
   console.log(friends);
+}
+
+
+function renderMe(data) {
+  me = data;
+  $('.splitList')
+    .append(friendTemplate(me))
+    .data('friend', me);
 }
 
 
@@ -110,7 +85,6 @@ function renderTrips(data) {
 
 
 function renderTrip(trip) {
-
   $('#trip')
     .html(tripTemplate(trip))
     .data('trip', trip);
@@ -177,4 +151,84 @@ function updateTripControls(trip) {
 
 function renderSettings() {
   $('.mileageRate').html(mileageRate);
+}
+
+
+function initializeSlider() {
+  $('.mileageRateSlider').slider({
+    min: 0,
+    max: 1,
+    step: 0.01,
+    formater: formatCost,
+    value: mileageRate,
+    tooltip: 'show'
+  }).on('change', function() {
+    mileageRate = $(this).slider('getValue');
+    renderSettings();
+    calculateSplit();
+  });
+}
+
+
+function initializeTypeahead() {
+  var substringMatcher = function(strs) {
+    return function findMatches(q, cb) {
+      var matches, substrRegex;
+
+      // an array that will be populated with substring matches
+      matches = [];
+
+      // regex used to determine if a string contains the substring `q`
+      substrRegex = new RegExp(q, 'i');
+
+      // iterate through the pool of strings and for any string that
+      // contains the substring `q`, add it to the `matches` array
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          // the typeahead jQuery plugin expects suggestions to a
+          // JavaScript object, refer to typeahead docs for more info
+          matches.push({ value: str });
+        }
+      });
+
+      cb(matches);
+    };
+  };
+
+  function getTokens() {
+    var tokens = [];
+    friends.forEach(function(friend) {
+      tokens.push(friend.display_name);
+    });
+    return tokens;
+  }
+
+  $('.friendEmail').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    name: 'friends',
+    displayKey: 'value',
+    source: substringMatcher(getTokens())
+  });
+}
+
+
+function calculateSplit() {
+  console.log($('.splitList .friend'));
+  var selectedFriends = $.each($('.splitList .friend'), function(friend) {
+    console.log($(friend).data('friend'));
+    return $(friend).data('friend');
+  });
+
+  console.log(selectedFriends);
+
+  var totalCost = selectedTrip.Distance * mileageRate,
+      costPerPerson = totalCost / selectedFriends.length;
+
+  $('.splitList .friend .friendCharge').html(formatCost(costPerPerson));
+
+
 }

@@ -49,5 +49,11 @@ block scripts
           label When
           .whenDate {{StartDate}}
           .whenTime {{StartTimeFormatted}}
+          
+  script(type="text/template" id="friendTemplate")
+    .friend
+      img(src="{{profile_picture_url}}")
+      .friendName {{display_name}}
+      .friendCharge
   
   script(src="/javascripts/main.js")
