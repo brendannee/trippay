@@ -1,17 +1,27 @@
 extends layout
 
 block content
-  h1 Select a Trip
-  
-  #trip
-  .btn.btn-green Ok
+  #selectTrip
+    h1 Select a Trip
+    
+    #trip
+    .btn.btn-green.btn-select-trip Ok
+    
+  #selectFriends.hide
+    h1 Split it up
+    
+    input.friendEmail(type="text" placeholder="Enter an email or phone number")
+      
+    .mileageCostContainer
+      label Cost Per Mile
+      .mileageRate
 
 block scripts
-  script(type='text/template' id='tripTemplate')
+  script(type="text/template" id="tripTemplate")
     .mapContainer
-      .prevTrip Prev
+      .prevTrip &#9664;
       #map.map
-      .nextTrip Next
+      .nextTrip &#9654;
     .tripData
       .topData
         .from

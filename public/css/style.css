@@ -1,5 +1,5 @@
 body {
-  background-color: #72aa6a;
+  background-color: #70ab67;
 }
 .content {
   color: #FFF;
@@ -14,11 +14,36 @@ body {
   margin-top: 20px;
 }
 
+.mapConatiner {
+  position: relative;
+}
+
 .map {
   width: 250px;
   height: 250px;
   z-index: 0;
   border-radius: 125px;
+}
+
+.prevTrip {
+  position: absolute;
+  top: 115px;
+  left: 10px;
+  color: #ffd200;
+}
+
+.nextTrip {
+  position: absolute;
+  top: 115px;
+  right: 10px;
+  color: #ffd200;
+}
+
+.friendEmail {
+  margin: 0 auto;
+  display: block;
+  width: 280px;
+  padding: 8px 12px;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (min-resolution: 144dppx) {

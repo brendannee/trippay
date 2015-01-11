@@ -17,17 +17,24 @@ var mileageRate = 0.56;
 
 fetchFriends(renderFriends);
 fetchTrips(renderTrips);
+renderSettings();
 
 
-$('#trip')
-.on('click', '.nextTrip, .prevTrip', function(e) {
+$('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
   var tripId = $(e.target).data('tripId'),
       trip = _.findWhere(trips, {_id: tripId});
 
   if(trip) {
     renderTrip(trip);
-  } 
+  }
 });
+
+
+$('.btn-select-trip').click(function() {
+  $('#selectTrip').slideUp();
+  $('#selectFriends').removeClass('hide');
+});
+
 
 
 
@@ -111,4 +118,9 @@ function updateTripControls(trip) {
   $('.prevTrip')
     .toggleClass('disabled', !trip.PrevTrip)
     .data('tripId', trip.PrevTrip);
+}
+
+
+function renderSettings() {
+  $('.mileageRate').html(mileageRate);
 }

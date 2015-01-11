@@ -33,9 +33,9 @@ exports.getFriends = function(req, res, next) {
   }, function(e, r, body) {
     if(e) return next(e);
     if(body && body.data) {
-        res.json(body.data);
+      res.json(body.data);
     } else {
-      return next(new Error('Not able to get friends'));
+      return next(new Error('Unable to get friends'));
     }
   });
 };
@@ -50,11 +50,11 @@ exports.getTrips = function(req, res, next) {
     timeout: 10000
   }, function(e, r, body) {
     if(e) return next(e);
-
     if(body && body.Data) {
+      console.log(body.Data);
       res.json(body.Data);
     } else {
-      return next(new Error('Unable to get BMW Trips'))
+      return next(new Error('Unable to get BMW Trips'));
     }
   });
 };
