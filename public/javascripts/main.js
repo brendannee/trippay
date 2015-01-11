@@ -242,6 +242,9 @@ function initializeTypeahead() {
     name: 'friends',
     displayKey: 'value',
     source: substringMatcher(getTokens())
+  }).on('typeahead:selected', function(e, friend) {
+    $('.btn-add-friend').trigger('click');
+    $('.friendEmail').typeahead('val', '');
   });
 }
 
