@@ -15,7 +15,7 @@ exports.createExpense = function(req, res, next) {
 
   async.map(friends, function(friend, cb) {
     var expense = {
-      amount: costPerPerson,
+      amount: costPerPerson * -1,
       note: note
     };
 
