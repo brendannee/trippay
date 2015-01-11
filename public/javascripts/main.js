@@ -33,9 +33,19 @@ $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
 $('.btn-select-trip').click(function() {
   $('#selectTrip').slideUp();
   $('#selectFriends').removeClass('hide');
+
+  $('.mileageRateSlider').slider({
+    min: 0,
+    max: 1,
+    step: 0.01,
+    formater: formatCost,
+    value: mileageRate,
+    tooltip: 'show'
+  }).on('change', function() {
+    mileageRate = $(this).slider('getValue');
+    renderSettings();
+  });
 });
-
-
 
 
 function renderFriends(friends) {
@@ -54,8 +64,6 @@ function renderTrips(data) {
 
 
 function renderTrip(trip) {
-  console.log(trip);
-
 
   $('#trip')
     .html(tripTemplate(trip))
