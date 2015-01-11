@@ -101,7 +101,7 @@ app.use(function(req, res, next) {
 
 // catch 401 Unauthorized errors
 app.use(function(err, req, res, next) {
-  if(err.status !== 401) return next();
+  if(err.status !== 401) return next(err);
   res.status(401);
   if(req.xhr) {
     res.send({
