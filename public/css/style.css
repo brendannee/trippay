@@ -73,6 +73,21 @@ body {
   padding-top: 10px;
 }
 
+/* Button Styles */
+
+.btn-green {
+  color: #fff;
+  background-color: #4f7549;
+  border-color: #3D6437;
+}
+
+.btn-orange {
+  color: #fff;
+  background-color: #f9b126;
+  border-color: #BA9144;
+}
+
+
 /* Twitter Typeahed */
 
 .friendEmailContainer {

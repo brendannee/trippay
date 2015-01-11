@@ -5,13 +5,14 @@ block content
     h1 Select a Trip
     
     #trip
-    .btn.btn-green.btn-select-trip Ok
+    .btn.btn-green.center-block.btn-select-trip Ok
     
   #selectFriends.hide
     h1 Split it up
     
     .friendEmailContainer
       input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone number")
+      button.btn.btn-default.btn-add-friend Add
       
     .mileageCostContainer
       label Cost Per Mile
@@ -20,6 +21,8 @@ block content
       
     label Split Between  
     .splitList
+      
+    .btn.btn-orange.center-block.btn-request-payment Request Payment
       
 
 block scripts
