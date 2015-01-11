@@ -2,13 +2,13 @@ extends layout
 
 block content
   #selectTrip
-    h1 Select a Trip
+    h1.select-a-trip Select a Trip
     
     #trip
     .btn.btn-green.center-block.btn-select-trip Ok
     
   #selectFriends.hide
-    h1 Split it up
+    h1.split-it-up Split it up
     
     .friendEmailContainer
       input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone number")
@@ -25,7 +25,7 @@ block content
     .btn.btn-orange.center-block.btn-request-payment Request Payment
     
   #success.hide
-    h1 Success
+    h1.success-header Success
     .successImage
     
     .successText Payment has been requested<span class="friendCount"></span>.
