@@ -1,7 +1,34 @@
 extends layout
 
 block content
-  h1 Your most recent trip
+  h1 Select a Trip
+  
+  #trip
+  .btn.btn-green Ok
 
 block scripts
+  script(type='text/template' id='tripTemplate')
+    .mapContainer
+      .prevTrip Prev
+      #map.map
+      .nextTrip Next
+    .tripData
+      .topData
+        .from
+          label From
+          .fromAddress {{StartAddressAddress}}
+          .fromCity {{StartAddressCityState}}
+        .to
+          label To
+          .toAddress {{EndAddressAddress}}
+          .toCity {{EndAddressCityState}}
+      .bottomData
+        .cost
+          label Cost
+          .costData
+        .when
+          label When
+          .whenDate {{StartDate}}
+          .whenTime {{StartTimeFormatted}}
+  
   script(src="/javascripts/main.js")

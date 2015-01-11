@@ -28,11 +28,11 @@ exports.getFriends = function(req, res, next) {
   request.get({
     uri: venmoApiUrl + '/v1/users/' + req.session.venmo_user_id + '/friends',
     qs: {access_token: req.session.venmo_access_token},
-    json: true
+    json: true,
+    timeout: 10000
   }, function(e, r, body) {
     if(e) return next(e);
     if(body && body.data) {
-        console.log(body);
         res.json(body.data);
     } else {
       return next(new Error('Not able to get friends'));
@@ -46,7 +46,8 @@ exports.getTrips = function(req, res, next) {
     uri: bmwApiUrl + '/v1/Trips',
     qs: {limit: 100, desc: true},
     headers: {MojioAPIToken: req.session.bmw_access_token},
-    json: true
+    json: true,
+    timeout: 10000
   }, function(e, r, body) {
     if(e) return next(e);
 
