@@ -309,10 +309,26 @@ body.login {
   border-color: #3D6437;
 }
 
+.btn-green:hover {
+  background-color: #4f7549;
+}
+
+.btn-green.disabled {
+  background-color: #4f7549;
+}
+
 .btn-orange {
   color: #fff;
   background-color: #f9b126;
   border-color: #BA9144;
+}
+
+.btn-orange:hover {
+  background-color: #f9b126;
+}
+
+.btn-orange.disabled {
+  background-color: #f9b126;
 }
 
 /* Slider */
