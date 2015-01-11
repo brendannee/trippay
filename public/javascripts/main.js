@@ -19,6 +19,10 @@ var tripTemplate = _.template($('#tripTemplate').html()),
 // user settings
 var mileageRate = 0.56;
 
+if(isSafari()) {
+  $('body').addClass('safari');
+}
+
 fetchFriends(renderFriends);
 fetchMe(renderMe);
 fetchTrips(renderTrips);
@@ -301,4 +305,14 @@ function showSuccessView(friendCount) {
   $('#selectFriends').slideUp();
   $('#success').removeClass('hide').show();
   $('.friendCount').text(' from ' + friendCount + ' friend' + ((friendCount > 1) ? 's' : ''));
+}
+
+
+function isSafari() {
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('safari') != -1) {
+    return (ua.indexOf('chrome') != -1);
+  } else {
+    return false;
+  }
 }

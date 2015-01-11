@@ -117,6 +117,14 @@ body.login {
   z-index:-1;
 }
 
+.safari .mapContainer {
+  background: none;
+}
+
+.safari .mapContainer .map {
+  border: 1px solid #fff;
+}
+
 .map {
   /*width: 250px;
   height: 250px;
