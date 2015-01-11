@@ -326,7 +326,7 @@ function showSuccessView(friendCount) {
 
 function squareMap() {
   var ua = navigator.userAgent.toLowerCase();
-  if(ua.indexOf('Android WebView Browser') != -1) {
+  if(ua.indexOf('android webview browser') != -1) {
     return true;
   } else if(ua.indexOf('safari') != -1) {
     return (ua.indexOf('chrome') === -1);
