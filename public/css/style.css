@@ -253,6 +253,22 @@ body.login {
   padding: 0 5px;
 }
 
+.splitBetweenLabel {
+  float: left;
+}
+
+.includeSelfContainer {
+  float: right;
+}
+
+.includeSelfContainer .includeSelf {
+  margin-left: 5px;
+}
+
+.splitList {
+  clear: both;
+}
+
 .friend {
   padding: 5px 0;
 }

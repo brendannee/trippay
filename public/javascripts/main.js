@@ -46,6 +46,11 @@ $('.btn-add-friend').click(function() {
   var friendName = $('.friendEmail').typeahead('val'),
       friend = _.findWhere(friends, {display_name: friendName});
 
+  if(!friendName) {
+    return showAlert('Enter a friend name');
+  }
+
+
   hideAlert();
 
   if(!friend) {
@@ -86,6 +91,18 @@ $('.btn-request-payment').click(function() {
 
 $('.btn-show-trips').click(function() {
   showTripView();
+});
+
+
+$('.includeSelf').change(function() {
+  if($(this).is(':checked')) {
+    $(friendTemplate(me))
+      .data('friend', me)
+      .prependTo('.splitList');
+  } else {
+    $('.splitList .friend').first().remove();
+  }
+  calculateSplit();
 });
 
 

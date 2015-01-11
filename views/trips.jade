@@ -22,7 +22,10 @@ block content
         input.mileageRateSlider
         span.mileageLabel 1.00
       
-    label Split Between  
+    label.splitBetweenLabel Split Between  
+    .includeSelfContainer
+      label Include self?
+      input.includeSelf(type="checkbox" checked)
     .splitList
       
     .btn.btn-orange.center-block.btn-request-payment Request Payment
