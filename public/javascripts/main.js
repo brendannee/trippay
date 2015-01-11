@@ -19,6 +19,20 @@ var tripTemplate = _.template($('#tripTemplate').html()),
 // user settings
 var mileageRate = 0.56;
 
+history.pushState({page: 'trips'}, 'trips');
+
+window.onpopstate = function (event) {
+  if(event.state) {
+    if(event.state.page === 'friends') {
+      showFriendView();
+    } else if(event.state.page === 'success') {
+      showSuccessView();
+    } else if(event.state.page === 'trips') {
+      showTripView();
+    }
+  }
+}
+
 if(isSafari()) {
   $('body').addClass('safari');
 }
@@ -32,6 +46,8 @@ renderSettings();
 $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
   var tripId = $(e.target).data('tripId'),
       trip = _.findWhere(trips, {_id: tripId});
+
+    console.log('trip');
 
   if(trip) {
     renderTrip(trip);
@@ -287,14 +303,16 @@ function calculateSplit() {
 
 
 function showTripView() {
-  $('#success').slideUp();
+  $('#success, #selectFriends').slideUp();
   $('#selectTrip').removeClass('hide').show();
+  history.pushState({page: 'trips'}, 'trips');
 }
 
 
 function showFriendView() {
-  $('#selectTrip').slideUp();
+  $('#selectTrip, #success').slideUp();
   $('#selectFriends').removeClass('hide').show();
+  history.pushState({page: 'friends'}, 'friends');
 
   initializeSlider();
   calculateSplit();
@@ -302,9 +320,10 @@ function showFriendView() {
 
 
 function showSuccessView(friendCount) {
-  $('#selectFriends').slideUp();
+  $('#selectFriends, #selectTrip').slideUp();
   $('#success').removeClass('hide').show();
   $('.friendCount').text(' from ' + friendCount + ' friend' + ((friendCount > 1) ? 's' : ''));
+  history.pushState({page: 'success'}, 'success');
 }
 
 
