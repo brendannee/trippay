@@ -42,6 +42,7 @@ exports.redirectBmw = function (req, res, next) {
 exports.saveBmw = function(req, res, next) {
   if(req.body.token) {
     req.session.bmw_access_token = req.body.token;
+    console.log(req.session.bmw_access_token);
 
     // get user id
     request.get({
@@ -54,6 +55,7 @@ exports.saveBmw = function(req, res, next) {
 
       if(body && body.Data && body.Data.length) {
         req.session.bmw_user_id = body.Data[0]._id;
+        console.log(req.session.bmw_user_id);
         res.json({});
       } else {
         return next(new Error('Unable to get BMW User Id'))
@@ -83,6 +85,9 @@ exports.redirectVenmo = function (req, res, next) {
 
     req.session.venmo_access_token = token.token.access_token;
     req.session.venmo_user_id = token.token.user.id;
+    console.log(req.session.venmo_access_token);
+    console.log(req.session.venmo_user_id);
+
     res.redirect('/');
   });
 };
