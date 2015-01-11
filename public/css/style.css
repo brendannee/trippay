@@ -374,6 +374,7 @@ body.login {
   height:50px;
   font-size:20px;
   font-weight:bold;
+  padding: 9px 12px !important;
 }
 
 .btn-green:hover {
@@ -391,6 +392,7 @@ body.login {
   height:50px;
   font-size:20px;
   font-weight:bold;
+  padding: 9px 12px !important;
 }
 
 .btn-orange:hover {
