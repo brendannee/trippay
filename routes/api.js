@@ -41,6 +41,23 @@ exports.getFriends = function(req, res, next) {
 };
 
 
+exports.getMe = function(req, res, next) {
+  request.get({
+    uri: venmoApiUrl + '/v1/users/' + req.session.venmo_user_id,
+    qs: {access_token: req.session.venmo_access_token},
+    json: true,
+    timeout: 10000
+  }, function(e, r, body) {
+    if(e) return next(e);
+    if(body && body.data) {
+      res.json(body.data);
+    } else {
+      return next(new Error('Unable to get user profile'));
+    }
+  });
+};
+
+
 exports.getTrips = function(req, res, next) {
   request.get({
     uri: bmwApiUrl + '/v1/Trips',

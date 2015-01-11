@@ -74,6 +74,7 @@ app.get('/logout/', oauth.logout);
 
 app.get('/api/trips/', routes.authenticate, api.getTrips);
 app.get('/api/friends/', routes.authenticate, api.getFriends);
+app.get('/api/me/', routes.authenticate, api.getMe);
 
 app.get('/api/expenses/', routes.authenticate, api.getExpenses);
 app.post('/api/expenses/', routes.authenticate, api.createExpense);
