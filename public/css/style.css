@@ -1,6 +1,13 @@
 body {
   background-color: #70ab67;
 }
+
+.titleBar {
+  background: url("../images/title_small_top.png") center 0 no-repeat;
+  width: 100%;
+  height: 95px;
+}
+
 .content {
   color: #FFF;
   padding: 0 10px 10px;
@@ -55,7 +62,7 @@ body {
   text-indent: -9999px;
   background: url(../images/h1_select_a_trip.png) center 0 no-repeat;
   height: 57px;
-  margin: 20px 0;
+  margin: 10px 0 0 0;
 }
 
 .mapContainer {
