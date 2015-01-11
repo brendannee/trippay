@@ -1,12 +1,19 @@
 extends layout
 
 block content        
-  .panel.panel-default.sign-in
+  .panel.panel-default
     .panel-body
       .row
         .col-md-6.col-md-offset-3.description 
           h3 Split your trips with friends and carpool buddies
       .row
-        .col-md-6.col-md-offset-3.sign-in
-          a.center-block.btn.btn-primary.btn-lg.btn-sign-in
+        .col-md-6.col-md-offset-3.sign-in.sign-in-bmw
+          a.center-block.btn.btn-primary.btn-lg.btn-sign-in(href="/authorize-bmw/" class=bmw ? 'disabled' : '')
             span Sign in with BMW
+        .col-md-6.col-md-offset-3.sign-in-venmo
+          a.center-block.btn.btn-primary.btn-lg.btn-sign-in(href="/authorize-venmo/" class=bmw ? '' : 'disabled')
+            span Sign in with Venmo
+
+
+block scripts
+  script(src="/javascripts/login.js")
