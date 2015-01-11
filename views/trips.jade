@@ -10,7 +10,8 @@ block content
   #selectFriends.hide
     h1 Split it up
     
-    input.friendEmail(type="text" placeholder="Enter an email or phone number")
+    .friendEmailContainer
+      input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone number")
       
     .mileageCostContainer
       label Cost Per Mile

@@ -10,6 +10,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiYXV0b21hdGljIiwiYSI6IldFaGdQa2MifQ.Q-jIc0Ejcd
 
 var tripTemplate = _.template($('#tripTemplate').html()),
     trips = [],
+    friends = [],
     map;
 
 // user settings
@@ -45,10 +46,55 @@ $('.btn-select-trip').click(function() {
     mileageRate = $(this).slider('getValue');
     renderSettings();
   });
+
+  var substringMatcher = function(strs) {
+    return function findMatches(q, cb) {
+      var matches, substrRegex;
+
+      // an array that will be populated with substring matches
+      matches = [];
+
+      // regex used to determine if a string contains the substring `q`
+      substrRegex = new RegExp(q, 'i');
+
+      // iterate through the pool of strings and for any string that
+      // contains the substring `q`, add it to the `matches` array
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          // the typeahead jQuery plugin expects suggestions to a
+          // JavaScript object, refer to typeahead docs for more info
+          matches.push({ value: str });
+        }
+      });
+
+      cb(matches);
+    };
+  };
+
+  function getTokens() {
+    var tokens = [];
+    friends.forEach(function(friend) {
+      tokens.push(friend.display_name);
+    });
+    return tokens;
+  }
+
+  $('.friendEmail').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    name: 'friends',
+    displayKey: 'value',
+    source: substringMatcher(getTokens())
+  });
+
 });
 
 
-function renderFriends(friends) {
+function renderFriends(data) {
+  friends = data;
   console.log(friends);
 }
 

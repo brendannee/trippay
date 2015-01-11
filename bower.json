@@ -17,6 +17,7 @@
     "mapbox.js": "~2.1.4",
     "moment": "~2.8.4",
     "seiyria-bootstrap-slider": "~4.4.0",
+    "typeahead.js": "~0.10.5",
     "underscore": "~1.7.0"
   }
 }
