@@ -68,7 +68,7 @@ body.login {
 }
 
 .btn-select-trip {
-  margin-top: 20px;
+  /*margin-top: 20px;*/
 }
 
 
@@ -87,6 +87,7 @@ body.login {
   /*max-width: 320px; */
   background: url(../images/map_porthole.png) center 0 no-repeat;
   height: 290px;
+  z-index:-1;
 }
 
 .map {
@@ -137,13 +138,13 @@ body.login {
 
 .tripData .from {
   float: left;
-  width: 190px;
+  width: 185px;
   overflow: hidden;
 }
 
 .tripData .to {
   float: right;
-  width: 190px;
+  width: 185px;
   overflow: hidden;
   text-align: right;
 }
@@ -154,16 +155,26 @@ body.login {
 
 .tripData .cost {
   float: left;
-  width: 190px;
+  width: 185px;
   overflow: hidden;
 }
 
 .tripData .when {
   float: right;
-  width: 190px;
+  width: 185px;
   overflow: hidden;
   text-align: right;
 }
+
+.toAddress {
+  white-space: nowrap;
+}
+
+.fromAddress {
+  white-space: nowrap;
+}
+
+
 
 .boldText {
   font-weight: 600;
@@ -177,6 +188,7 @@ body.login {
 
 .costData {
   font-size:40px;
+  margin-top: -10px;
 }
 
 .allcapsLabel {
@@ -186,6 +198,9 @@ body.login {
   text-transform: uppercase;
 }
 
+.bottomData {
+  padding-top:10px;
+}
 
 
 
