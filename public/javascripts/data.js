@@ -25,8 +25,13 @@ function fetchMe(cb) {
 }
 
 
-function createExpense(trip, cb) {
-  $.post('/api/expenses/', trip, cb);
+function createExpense(trip, friends, costPerPerson, cb) {
+  $.post('/api/expenses/', {
+    tripId: trip._id,
+    friends: JSON.stringify(friends),
+    costPerPerson: costPerPerson,
+    note: formatNote(trip)
+  }, cb);
 }
 
 

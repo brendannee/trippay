@@ -38,12 +38,7 @@ $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
 $('.btn-select-trip').click(function() {
   selectedTrip = $('#trip').data('trip');
 
-  $('#selectTrip').slideUp();
-  $('#selectFriends').removeClass('hide');
-
-  initializeSlider();
-  initializeTypeahead();
-  calculateSplit();
+  showFriendView();
 });
 
 
@@ -54,7 +49,7 @@ $('.btn-add-friend').click(function() {
   if(!friend) {
     friend = {
       display_name: friendName,
-      profile_picture_url: "https://s3.amazonaws.com/venmo/no-image.gif"
+      profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif'
     }
   }
 
@@ -66,6 +61,34 @@ $('.btn-add-friend').click(function() {
 });
 
 
+$('.btn-request-payment').click(function() {
+  var selectedFriends = getSelectedFriends(),
+      costPerPerson = calculateTripCost(selectedTrip) / selectedFriends.length,
+      friendsToCharge = _.reject(selectedFriends, function(friend) {
+        return !!friend.is_me;
+      });
+
+  if(!friendsToCharge.length) {
+    return showAlert('Select at least one friend to charge');
+  } else {
+    hideAlert();
+  }
+
+  $(this).prop('disabled', true);
+
+  createExpense(selectedTrip, friendsToCharge, costPerPerson, function(data) {
+    $(this).prop('disabled', false);
+    //TODO: handle failure
+    showSuccessView(friendsToCharge.length);
+  });
+});
+
+
+$('.btn-show-trips').click(function() {
+  showTripView();
+});
+
+
 function renderFriends(data) {
   friends = data;
   console.log(friends);
@@ -74,9 +97,12 @@ function renderFriends(data) {
 
 function renderMe(data) {
   me = data;
-  $('.splitList')
-    .append(friendTemplate(me))
-    .data('friend', me);
+
+  me.is_me = true;
+
+  $(friendTemplate(me))
+    .data('friend', me)
+    .appendTo('.splitList');
 }
 
 
@@ -222,14 +248,40 @@ function initializeTypeahead() {
 }
 
 
-function calculateSplit() {
-  var selectedFriends = $.each($('.splitList .friend'), function(friend) {
-    console.log($(friend).data('friend'));
+function getSelectedFriends() {
+  return $.map($('.splitList .friend'), function(friend) {
     return $(friend).data('friend');
   });
+}
 
-  var totalCost = selectedTrip.Distance * mileageRate,
+
+function calculateSplit() {
+  var selectedFriends = getSelectedFriends(),
+      totalCost = calculateTripCost(selectedTrip),
       costPerPerson = totalCost / selectedFriends.length;
 
   $('.splitList .friend .friendCharge').html(formatCost(costPerPerson));
+}
+
+
+function showTripView() {
+  $('#success').slideUp();
+  $('#selectTrip').removeClass('hide').show();
+}
+
+
+function showFriendView() {
+  $('#selectTrip').slideUp();
+  $('#selectFriends').removeClass('hide').show();
+
+  initializeSlider();
+  initializeTypeahead();
+  calculateSplit();
+}
+
+
+function showSuccessView(friendCount) {
+  $('#selectFriends').slideUp();
+  $('#success').removeClass('hide').show();
+  $('.friendCount').text(' from ' + friendCount + ' friend' + ((friendCount > 1) ? 's' : ''));
 }

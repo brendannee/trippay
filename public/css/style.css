@@ -75,6 +75,10 @@ body {
   padding-top: 10px;
 }
 
+.btn-select-trip {
+  margin-top: 20px;
+}
+
 /* Friend List */
 
 .friend {
@@ -100,12 +104,25 @@ body {
   line-height: 50px;
 }
 
-
-.btn-select-trip {
+.btn-request-payment {
   margin-top: 20px;
 }
 
-.btn-request-payment {
+/* Success Page */
+
+.successImage {
+  background: url('../images/success_check_mark.png');
+  width: 260px;
+  height: 260px;
+  margin: 0 auto;
+}
+
+.successText {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-show-trips {
   margin-top: 20px;
 }
 
@@ -197,5 +214,8 @@ body {
 
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (min-resolution: 144dppx) {
-
+  .successImage {
+    background: url('../images/success_check_mark@2x.png');
+    background-size: 260px 260px;
+  }
 }

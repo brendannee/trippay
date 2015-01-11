@@ -60,16 +60,21 @@ function formatDateTime(time) {
 
 
 function calculateTripCost(trip) {
-  if(!trip.distance) {
-    return '';
+  if(!trip.Distance) {
+    return 0;
   } else if(!mileageRate) {
-    return '';
+    return 0;
   } else {
-    return trip.distance * mileageRate;
+    return trip.Distance * mileageRate;
   }
 }
 
 
 function formatCost(cost) {
   return '$' + (cost || 0).toFixed(2);
+}
+
+
+function formatNote(trip) {
+  return 'Splitting trip to ' + formatAddress(trip.StartAddress) + ', ' + formatCityState(trip.StartAddress) + ' on ' + formatDateTime(trip.StartTime);
 }
