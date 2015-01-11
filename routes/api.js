@@ -1,6 +1,7 @@
 var nconf = require('nconf'),
     request = require('request'),
     db = require('../libs/database'),
+    venmoApiUrl = 'https://api.venmo.com',
     bmwApiUrl = 'http://data.api.hackthedrive.com';
 
 
@@ -19,6 +20,23 @@ exports.getExpenses = function(req, res, next) {
   db.getExpenses(req.session.user_id, function(e, expenses) {
     if(e) return next(e);
     res.json(expenses);
+  });
+};
+
+
+exports.getFriends = function(req, res, next) {
+  request.get({
+    uri: venmoApiUrl + '/v1/users/' + req.session.venmo_user_id + '/friends',
+    qs: {access_token: req.session.venmo_access_token},
+    json: true
+  }, function(e, r, body) {
+    if(e) return next(e);
+    if(body && body.data) {
+        console.log(body);
+        res.json(body.data);
+    } else {
+      return next(new Error('Not able to get friends'));
+    }
   });
 };
 

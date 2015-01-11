@@ -13,6 +13,11 @@ function fetchTrips(cb) {
 }
 
 
+function fetchFriends(cb) {
+  $.getJSON('/api/friends/').done(cb);
+}
+
+
 function createExpense(trip, cb) {
   $.post('/api/expenses/', trip, cb);
 }
