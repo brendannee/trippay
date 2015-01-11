@@ -60,15 +60,24 @@ body {
 
 .mapContainer {
   position: relative;
-  max-width: 320px;
+  /*max-width: 320px; */
+  background: url(../images/map_porthole.png) center 0 no-repeat;
+  height: 290px;
 }
 
 .map {
-  width: 250px;
+  /*width: 250px;
   height: 250px;
   z-index: 0;
   border-radius: 125px;
+  margin: 0 auto;*/
+  width: 270px;
+  height: 271px;
+  z-index: 0;
+  border-radius: 200px;
   margin: 0 auto;
+  top: 7px;
+  left: 1px;
 }
 
 .prevTrip {
