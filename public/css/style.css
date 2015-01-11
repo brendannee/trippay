@@ -82,6 +82,14 @@ body.login {
   padding-top: 10px;
 }
 
+.sign-in-bmw {
+  color: #4f7549;
+}
+
+.sign-in-venmo {
+  padding-top: 10px;
+}
+
 .btn-select-trip {
   /*margin-top: 20px;*/
 }
@@ -397,10 +405,6 @@ body.login {
 
 .typeahead {
   background-color: #fff;
-
-.panel {
-  background-color: transparent;
-  border: none;
 }
 
 .typeahead:focus {
@@ -411,14 +415,6 @@ body.login {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-
-.panel-body {
-  border: none;
-}
-
-.tagline {
-  color: black;
-  text-align: center;
 }
 
 .tt-hint {
@@ -445,13 +441,6 @@ body.login {
   padding: 3px 20px;
   font-size: 18px;
   line-height: 24px;
-
-.sign-in-bmw {
-  color: #4f7549;
-}
-
-.sign-in-venmo {
-  padding-top: 10px;
 }
 
 .tt-suggestion.tt-cursor {
