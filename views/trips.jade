@@ -45,21 +45,21 @@ block scripts
     .tripData
       .topData
         .from
-          label From
-          .fromAddress {{StartAddressAddress}}
-          .fromCity {{StartAddressCityState}}
+          label.allcapsLabel From
+          .fromAddress.boldText {{StartAddressAddress}}
+          .fromCity.lightText {{StartAddressCityState}}
         .to
-          label To
-          .toAddress {{EndAddressAddress}}
-          .toCity {{EndAddressCityState}}
+          label.allcapsLabel To
+          .toAddress.boldText {{EndAddressAddress}}
+          .toCity.lightText {{EndAddressCityState}}
       .bottomData
         .cost
-          label Cost
+          label.allcapsLabel Cost
           .costData
         .when
-          label When
-          .whenDate {{StartDate}}
-          .whenTime {{StartTimeFormatted}}
+          label.allcapsLabel When
+          .whenDate.boldText {{StartDate}}
+          .whenTime.lightText {{StartTimeFormatted}}
           
   script(type="text/template" id="friendTemplate")
     .friend

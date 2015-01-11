@@ -129,13 +129,13 @@ body {
 
 .tripData .from {
   float: left;
-  width: 140px;
+  width: 190px;
   overflow: hidden;
 }
 
 .tripData .to {
   float: right;
-  width: 140px;
+  width: 190px;
   overflow: hidden;
   text-align: right;
 }
@@ -146,16 +146,41 @@ body {
 
 .tripData .cost {
   float: left;
-  width: 140px;
+  width: 190px;
   overflow: hidden;
 }
 
 .tripData .when {
   float: right;
-  width: 140px;
+  width: 190px;
   overflow: hidden;
   text-align: right;
 }
+
+.boldText {
+  font-weight: 600;
+  font-size:15px;
+}
+
+.lightText {
+  font-weight: 300;
+  font-size:15px;
+}
+
+.costData {
+  font-size:40px;
+}
+
+.allcapsLabel {
+  color: #4f7549;
+  font-size:13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+
+
+
 
 /* Friend List */
 
