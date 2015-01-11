@@ -21,6 +21,7 @@ if(app.get('env') !== 'development') {
 
 var routes = require('./routes');
 var api = require('./routes/api');
+var oauth = require('./routes/oauth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,6 +64,15 @@ if(app.get('env') !== 'development') {
 app.get('/', routes.index);
 
 app.get('/api/trips/', routes.authenticate, api.trips);
+app.get('/authorize-bmw/', oauth.authorizeBmw);
+app.get('/redirect-bmw/', oauth.redirectBmw);
+app.post('/redirect-bmw/', oauth.saveBmw);
+
+app.get('/authorize-venmo/', oauth.authorizeVenmo);
+app.get('/redirect-venmo/', oauth.redirectVenmo);
+
+app.get('/logout/', oauth.logout);
+
 
 app.get('/api/expenses/', routes.authenticate, api.getExpenses);
 app.post('/api/expenses/', routes.authenticate, api.createExpense);
