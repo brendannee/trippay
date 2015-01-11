@@ -174,9 +174,13 @@ body.login {
 .tripData {
   font-size: 11px;
   overflow: hidden;
-  margin-top:-20px;
+  margin-top: -20px;
   z-index: 100;
   position: relative;
+}
+
+.squareMap .tripData {
+  margin-top: 0px;
 }
 
 .tripData .from {
