@@ -14,7 +14,7 @@ nconf.file('./config.json');
 var app = express();
 
 if(app.get('env') !== 'development') {
-	nconf.set('URL', 'https://bmwhackathon.herokuapp.com');
+	nconf.set('URL', 'http://trippay.co');
 } else {
 	nconf.set('URL', 'http://localhost:3000');
 }
@@ -55,9 +55,7 @@ app.use(session({
 }));
 
 
-if(app.get('env') !== 'development') {
-  app.all('*', routes.force_https);
-} else {
+if(app.get('env') === 'development') {
   app.all('*', routes.check_dev_token);
 }
 
