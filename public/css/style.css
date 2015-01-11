@@ -3,7 +3,7 @@ body {
 }
 
 body.login {
-  background: transparent url("/images/title_bg.jpg") 0 0 no-repeat;
+  background: #72aa6a url("/images/title_bg.jpg") 0 0 no-repeat;
   background-size: 100% auto;
 }
 
