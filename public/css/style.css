@@ -8,6 +8,13 @@ body {
   height: 95px;
 }
 
+#logout {
+  color: white;
+  float: right;
+  padding: 40px 10px 0 0;
+  font-weight: bold;
+}
+
 .content {
   color: #FFF;
   padding: 0 10px 10px;
