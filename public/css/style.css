@@ -483,3 +483,11 @@ body.login {
 .tt-suggestion p {
   margin: 0;
 }
+
+
+@media (min-width: 600px) {
+  body.login {
+    background-size: 500px auto;
+    background-position: center 0;
+  }
+}
