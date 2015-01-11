@@ -69,6 +69,7 @@ body {
 .select-a-trip {
   text-indent: -9999px;
   background: url(../images/h1_select_a_trip.png) center 0 no-repeat;
+  background-size: 289px 57px;
   height: 57px;
   margin: 10px 0 0 0;
 }
@@ -161,6 +162,7 @@ body {
 .split-it-up {
   text-indent: -9999px;
   background: url(../images/h1_split_it_up.png) center 0 no-repeat;
+  background-size: 239px 57px;
   height: 57px;
   margin: 20px 0;
 }
@@ -219,12 +221,14 @@ body {
 .success-header {
   text-indent: -9999px;
   background: url(../images/h1_success.png) center 0 no-repeat;
+  background-size: 246px 57px;
   height: 57px;
   margin: 20px 0;
 }
 
 .successImage {
   background: url('../images/success_check_mark.png') 0 0 no-repeat;
+  background-size: 260px 260px;
   width: 260px;
   height: 260px;
   margin: 0 auto;
@@ -359,31 +363,4 @@ body {
 
 .tt-suggestion p {
   margin: 0;
-}
-
-
-@media  only screen and (-webkit-min-device-pixel-ratio: 1.5),
-        only screen and (   min--moz-device-pixel-ratio: 1.5),
-        only screen and (     -o-min-device-pixel-ratio: 3/2),
-        only screen and (        min-device-pixel-ratio: 1.5),
-        only screen and (min-resolution: 192dpi) {
-  .successImage {
-    background-image: url(../images/success_check_mark@2x.png);
-    background-size: 260px 260px;
-  }
-
-  .select-a-trip {
-    background-image: url(../images/h1_select_a_trip@2x.png);
-    background-size: 289px 57px;
-  }
-
-  .split-it-up {
-    background-image: url(../images/h1_split_it_up@2x.png);
-    background-size: 239px 57px;
-  }
-
-  .success-header {
-    background-image: url(../images/h1_success@2x.png);
-    background-size: 246px 57px;
-  }
 }
