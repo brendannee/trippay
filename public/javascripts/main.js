@@ -173,35 +173,37 @@ function renderMap(trip) {
       start = [trip.StartLocation.Lat, trip.StartLocation.Lng],
       end = [trip.LastKnownLocation.Lat, trip.LastKnownLocation.Lng];
 
-  map.fitBounds([start, end], {padding: [20, 20]});
+  if(start && end) {
+    map.fitBounds([start, end], {padding: [20, 20]});
 
-  var startIcon = L.icon({
-    iconUrl: '/images/marker_start.png',
-    iconSize: [70, 64],
-    iconAnchor: [35, 64],
-    popupAnchor: [0,-41],
-    shadowUrl: '/images/marker_shadow.png',
-    shadowSize: [70, 64],
-    shadowAnchor: [35, 64]
-  });
+    var startIcon = L.icon({
+      iconUrl: '/images/marker_start.png',
+      iconSize: [70, 64],
+      iconAnchor: [35, 64],
+      popupAnchor: [0,-41],
+      shadowUrl: '/images/marker_shadow.png',
+      shadowSize: [70, 64],
+      shadowAnchor: [35, 64]
+    });
 
-  var endIcon = L.icon({
-    iconUrl: '/images/marker_end.png',
-    iconSize: [70, 64],
-    iconAnchor: [35, 64],
-    popupAnchor: [0,-41],
-    shadowUrl: '/images/marker_shadow.png',
-    shadowSize: [70, 64],
-    shadowAnchor: [35, 64]
-  });
+    var endIcon = L.icon({
+      iconUrl: '/images/marker_end.png',
+      iconSize: [70, 64],
+      iconAnchor: [35, 64],
+      popupAnchor: [0,-41],
+      shadowUrl: '/images/marker_shadow.png',
+      shadowSize: [70, 64],
+      shadowAnchor: [35, 64]
+    });
 
-  L.marker(start, {title: 'Start Location', icon: startIcon})
-    .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
-    .addTo(map);
+    L.marker(start, {title: 'Start Location', icon: startIcon})
+      .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
+      .addTo(map);
 
-  L.marker(end, {title: 'End Location', icon: endIcon})
-    .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
-    .addTo(map);
+    L.marker(end, {title: 'End Location', icon: endIcon})
+      .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
+      .addTo(map);
+  }
 }
 
 function updateTripControls(trip) {
