@@ -48,6 +48,10 @@ body.login {
 
 .tagline {
   color: black;
+  font-size: 130%;
+  text-align: center;
+  line-height: normal;
+  font-weight: normal;
 }
 
 .logo {
