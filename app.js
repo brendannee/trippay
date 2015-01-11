@@ -63,7 +63,6 @@ if(app.get('env') !== 'development') {
 
 app.get('/', routes.index);
 
-app.get('/api/trips/', routes.authenticate, api.trips);
 app.get('/authorize-bmw/', oauth.authorizeBmw);
 app.get('/redirect-bmw/', oauth.redirectBmw);
 app.post('/redirect-bmw/', oauth.saveBmw);
@@ -73,6 +72,7 @@ app.get('/redirect-venmo/', oauth.redirectVenmo);
 
 app.get('/logout/', oauth.logout);
 
+app.get('/api/trips/', routes.authenticate, api.getTrips);
 
 app.get('/api/expenses/', routes.authenticate, api.getExpenses);
 app.post('/api/expenses/', routes.authenticate, api.createExpense);
