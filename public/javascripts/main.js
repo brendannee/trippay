@@ -19,8 +19,14 @@ fetchFriends(renderFriends);
 fetchTrips(renderTrips);
 
 
-$('#trip').on('click', '.nextTrip', function(e) {
-  console.log($(e.target).data('tripId'));
+$('#trip')
+.on('click', '.nextTrip, .prevTrip', function(e) {
+  var tripId = $(e.target).data('tripId'),
+      trip = _.findWhere(trips, {_id: tripId});
+
+  if(trip) {
+    renderTrip(trip);
+  } 
 });
 
 
@@ -100,9 +106,9 @@ function renderMap(trip) {
 
 function updateTripControls(trip) {
   $('.nextTrip')
-    .toggleClass('disabled', !!trip.NextTrip)
+    .toggleClass('disabled', !trip.NextTrip)
     .data('tripId', trip.NextTrip);
   $('.prevTrip')
-    .toggleClass('disabled', !!trip.PrevTrip)
+    .toggleClass('disabled', !trip.PrevTrip)
     .data('tripId', trip.PrevTrip);
 }
