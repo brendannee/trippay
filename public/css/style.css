@@ -162,13 +162,13 @@ body.login {
 
 .tripData .from {
   float: left;
-  width: 185px;
+  width: 46%;
   overflow: hidden;
 }
 
 .tripData .to {
   float: right;
-  width: 185px;
+  width: 46%;
   overflow: hidden;
   text-align: right;
 }
@@ -179,18 +179,26 @@ body.login {
 
 .tripData .cost {
   float: left;
-  width: 185px;
+  width: 46%;;
   overflow: hidden;
 }
 
 .tripData .when {
   float: right;
-  width: 185px;
+  width: 46%;
   overflow: hidden;
   text-align: right;
 }
 
 .toAddress {
+  white-space: nowrap;
+}
+
+.toCity {
+  white-space: nowrap;
+}
+
+.fromCity {
   white-space: nowrap;
 }
 
