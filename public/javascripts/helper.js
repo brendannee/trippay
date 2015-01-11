@@ -10,12 +10,12 @@ function hideLoading() {
 
 function showAlert(msg, type) {
   var type = type || 'info';
-  $('#alert').html(msg).removeClass().addClass('alert alert-' + type).fadeIn();
+  $('#alert').html(msg).removeClass().addClass('alert alert-' + type).slideDown();
 }
 
 
 function hideAlert() {
-  $('#alert').fadeOut();
+  $('#alert').slideUp();
 }
 
 

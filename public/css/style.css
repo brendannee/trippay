@@ -3,7 +3,7 @@ body {
 }
 .content {
   color: #FFF;
-  padding: 0 10px;
+  padding: 0 10px 10px;
 }
 
 .content input {
@@ -18,6 +18,36 @@ body {
   display: none;
   margin-top: 20px;
 }
+
+.panel {
+  background-color: #72aa6a;
+}
+
+.panel-default {
+  border: none;
+}
+
+.tagline {
+  color: black;
+}
+
+.logo {
+  height: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Login Page */
+
+.sign-in-venmo {
+  padding-top: 10px;
+}
+
+.btn-select-trip {
+  margin-top: 20px;
+}
+
 
 /* Trip Selection */
 
@@ -44,48 +74,58 @@ body {
 .prevTrip {
   position: absolute;
   top: 115px;
-  left: 10px;
+  left: 0;
   color: #ffd200;
   cursor: pointer;
+  font-size: 1.7em;
 }
 
 .nextTrip {
   position: absolute;
   top: 115px;
-  right: 10px;
+  right: 0;
   color: #ffd200;
   cursor: pointer;
+  font-size: 1.7em;
 }
 
 .nextTrip:hover, .prevTrip:hover {
   color: #E7C009;
 }
 
-.panel {
-  background-color: #72aa6a;
+.tripData {
+  font-size: 11px;
+  overflow: hidden;
 }
 
-.panel-default {
-  border: none;
+.tripData .from {
+  float: left;
+  width: 140px;
+  overflow: hidden;
 }
 
-.tagline {
-  color: black;
+.tripData .to {
+  float: right;
+  width: 140px;
+  overflow: hidden;
+  text-align: right;
 }
 
-.logo {
-  height: 200px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.tripData .bottomData {
+  clear: both;
 }
 
-.sign-in-venmo {
-  padding-top: 10px;
+.tripData .cost {
+  float: left;
+  width: 140px;
+  overflow: hidden;
 }
 
-.btn-select-trip {
-  margin-top: 20px;
+.tripData .when {
+  float: right;
+  width: 140px;
+  overflow: hidden;
+  text-align: right;
 }
 
 /* Friend List */
@@ -96,6 +136,29 @@ body {
   height: 57px;
   margin: 20px 0;
 }
+
+.mileageCostContainer {
+  padding: 5px 0;
+}
+
+.mileageCostContainer label {
+  width: 100%;
+  text-align: center;
+}
+
+.mileageCostContainer .mileageRate {
+  text-align: center;
+  font-size: 30px;
+}
+
+.mileageCostContainer .mileageRateSliderContainer {
+  text-align: center;
+}
+
+.mileageCostContainer .mileageRateSliderContainer .mileageLabel {
+  padding: 0 5px;
+}
+
 .friend {
   padding: 5px 0;
 }
@@ -133,7 +196,7 @@ body {
 }
 
 .successImage {
-  background: url('../images/success_check_mark.png');
+  background: url('../images/success_check_mark.png') 0 0 no-repeat;
   width: 260px;
   height: 260px;
   margin: 0 auto;

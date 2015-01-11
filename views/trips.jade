@@ -11,13 +11,16 @@ block content
     h1.split-it-up Split it up
     
     .friendEmailContainer
-      input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone number")
+      input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone no")
       button.btn.btn-default.btn-add-friend Add
       
     .mileageCostContainer
       label Cost Per Mile
       .mileageRate
-      input.mileageRateSlider
+      .mileageRateSliderContainer
+        span.mileageLabel 0
+        input.mileageRateSlider
+        span.mileageLabel 1.00
       
     label Split Between  
     .splitList

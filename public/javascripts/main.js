@@ -46,6 +46,8 @@ $('.btn-add-friend').click(function() {
   var friendName = $('.friendEmail').typeahead('val'),
       friend = _.findWhere(friends, {display_name: friendName});
 
+  hideAlert();
+
   if(!friend) {
     friend = {
       display_name: friendName,
@@ -70,8 +72,6 @@ $('.btn-request-payment').click(function() {
 
   if(!friendsToCharge.length) {
     return showAlert('Select at least one friend to charge');
-  } else {
-    hideAlert();
   }
 
   $(this).prop('disabled', true);
@@ -91,7 +91,7 @@ $('.btn-show-trips').click(function() {
 
 function renderFriends(data) {
   friends = data;
-  console.log(friends);
+  initializeTypeahead();
 }
 
 
@@ -275,7 +275,6 @@ function showFriendView() {
   $('#selectFriends').removeClass('hide').show();
 
   initializeSlider();
-  initializeTypeahead();
   calculateSplit();
 }
 
