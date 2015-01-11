@@ -96,9 +96,7 @@ function renderFriends(data) {
 
 
 function renderMe(data) {
-  me = data;
-
-  me.is_me = true;
+  me = _.extend(data, {is_me: true});
 
   $(friendTemplate(me))
     .data('friend', me)
@@ -182,7 +180,7 @@ function updateTripControls(trip) {
 
 
 function renderSettings() {
-  $('.mileageRate').html(mileageRate);
+  $('.mileageRate').html(formatCost(mileageRate));
 }
 
 
@@ -191,7 +189,7 @@ function initializeSlider() {
     min: 0,
     max: 1,
     step: 0.01,
-    formater: formatCost,
+    formatter: formatCost,
     value: mileageRate,
     tooltip: 'show'
   }).on('change', function() {

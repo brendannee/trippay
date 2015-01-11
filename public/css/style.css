@@ -93,6 +93,10 @@ body {
   color: #E7C009;
 }
 
+.nextTrip.disabled, .prevTrip.disabled {
+  display: none;
+}
+
 .tripData {
   font-size: 11px;
   overflow: hidden;
@@ -224,6 +228,23 @@ body {
   color: #fff;
   background-color: #f9b126;
   border-color: #BA9144;
+}
+
+/* Slider */
+
+.slider.slider-horizontal .slider-handle {
+  background: #f9b126;
+  opacity: 1;
+  margin-top: -9px;
+}
+
+.slider.slider-horizontal .slider-track {
+  height: 2px;
+  background: #427a35;
+}
+
+.slider.slider-horizontal .slider-track {
+  margin-top: -2px;
 }
 
 
