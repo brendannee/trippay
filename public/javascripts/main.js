@@ -173,7 +173,7 @@ function renderMap(trip) {
       start = [trip.StartLocation.Lat, trip.StartLocation.Lng],
       end = [trip.LastKnownLocation.Lat, trip.LastKnownLocation.Lng];
 
-  if(start[0] && start[1] && end[0] && end[1]) {
+  if(start[0] !== "NaN" && start[1] !== "NaN" && end[0] !== "NaN" && end[1] !== "NaN") {
     map.fitBounds([start, end], {padding: [20, 20]});
 
     var startIcon = L.icon({
