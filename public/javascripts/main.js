@@ -330,7 +330,7 @@ function showSuccessView(friendCount) {
 function isSafari() {
   var ua = navigator.userAgent.toLowerCase();
   if (ua.indexOf('safari') != -1) {
-    return (ua.indexOf('chrome') != -1);
+    return (ua.indexOf('chrome') === -1);
   } else {
     return false;
   }
