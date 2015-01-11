@@ -48,10 +48,6 @@ body.login {
 
 .tagline {
   color: black;
-  font-size: 130%;
-  text-align: center;
-  line-height: normal;
-  font-weight: normal;
 }
 
 .logo {
@@ -62,6 +58,14 @@ body.login {
 }
 
 /* Login Page */
+
+.btn-sign-in {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  margin-left: -125px;
+  width: 250px;
+}
 
 .sign-in-venmo {
   padding-top: 10px;
@@ -137,13 +141,13 @@ body.login {
 
 .tripData .from {
   float: left;
-  width: 190px;
+  width: 140px;
   overflow: hidden;
 }
 
 .tripData .to {
   float: right;
-  width: 190px;
+  width: 140px;
   overflow: hidden;
   text-align: right;
 }
@@ -154,41 +158,16 @@ body.login {
 
 .tripData .cost {
   float: left;
-  width: 190px;
+  width: 140px;
   overflow: hidden;
 }
 
 .tripData .when {
   float: right;
-  width: 190px;
+  width: 140px;
   overflow: hidden;
   text-align: right;
 }
-
-.boldText {
-  font-weight: 600;
-  font-size:15px;
-}
-
-.lightText {
-  font-weight: 300;
-  font-size:15px;
-}
-
-.costData {
-  font-size:40px;
-}
-
-.allcapsLabel {
-  color: #4f7549;
-  font-size:13px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-
-
-
 
 /* Friend List */
 
