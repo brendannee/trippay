@@ -33,8 +33,8 @@ window.onpopstate = function (event) {
   }
 }
 
-if(isSafari()) {
-  $('body').addClass('safari');
+if(squareMap()) {
+  $('body').addClass('squareMap');
 }
 
 fetchFriends(renderFriends);
@@ -325,9 +325,11 @@ function showSuccessView(friendCount) {
 }
 
 
-function isSafari() {
+function squareMap() {
   var ua = navigator.userAgent.toLowerCase();
-  if (ua.indexOf('safari') != -1) {
+  if(ua.indexOf('Android WebView Browser') != -1) {
+    return true;
+  } else if(ua.indexOf('safari') != -1) {
     return (ua.indexOf('chrome') === -1);
   } else {
     return false;

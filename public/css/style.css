@@ -116,11 +116,11 @@ body.login {
   height: 290px;
 }
 
-.safari .mapContainer {
+.squareMap .mapContainer {
   background: none;
 }
 
-.safari .mapContainer .map {
+.squareMap .mapContainer .map {
   border: 1px solid #fff;
   border-radius: 0;
 }
