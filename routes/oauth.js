@@ -35,7 +35,7 @@ exports.authorizeBmw = function(req, res, next) {
 
 
 exports.redirectBmw = function (req, res, next) {
-  res.render('index', {bmw: true});
+  res.render('index', {bmw: true, page: 'login'});
 };
 
 

@@ -1,6 +1,10 @@
 body {
-  background-color: transparent;
-  background-image: url("/images/title_bg.jpg");
+  background-color: #72aa6a;
+}
+
+body.login {
+  background: transparent url("/images/title_bg.jpg") 0 0 no-repeat;
+  background-size: 100% auto;
 }
 
 .titleBar {

@@ -2,9 +2,9 @@ exports.index = function(req, res, next) {
   if(req.session && req.session.bmw_access_token && req.session.venmo_access_token) {
     res.render('trips', {loggedIn: true});
   } else if(req.session && req.session.bmw_access_token ) {
-    res.render('index', {bmw: true});
+    res.render('index', {bmw: true, page: 'login'});
   } else {
-    res.render('index');
+    res.render('index', {page: 'login'});
   }
 };
 
