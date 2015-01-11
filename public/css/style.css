@@ -20,6 +20,10 @@ body.login {
   font-weight: bold;
 }
 
+#trip {
+  min-height: 390px;
+}
+
 .wrapper {
   max-width: 410px;
   margin: 0 auto;
