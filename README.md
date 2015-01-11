@@ -1,4 +1,4 @@
-# BMW Hackathon
+# Trip Pay
 
 ## Setup
 
@@ -10,4 +10,4 @@
 
 ## debugging
 
-    DEBUG=bmw gulp develop
+    DEBUG=trippay gulp develop

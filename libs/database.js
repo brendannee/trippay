@@ -1,5 +1,5 @@
 var monk = require('monk');
-var db = monk(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/bmw');
+var db = monk(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/trippay');
 var expenses = db.get('expenses');
 
 

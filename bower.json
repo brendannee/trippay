@@ -1,10 +1,10 @@
 {
-  "name": "bmw-hackathon",
+  "name": "trippay",
   "version": "0.1.0",
   "authors": [
     "Brendan Nee <me@bn,ee>"
   ],
-  "description": "BMW Hackathon",
+  "description": "TripPay",
   "ignore": [
     "**/.*",
     "node_modules",
