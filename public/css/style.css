@@ -20,6 +20,11 @@ body.login {
   font-weight: bold;
 }
 
+.wrapper {
+  max-width: 410px;
+  margin: 0 auto;
+}
+
 .content {
   color: #FFF;
   padding: 0 10px 10px;
