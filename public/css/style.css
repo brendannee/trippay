@@ -101,6 +101,15 @@ body {
 }
 
 
+.btn-select-trip {
+  margin-top: 20px;
+}
+
+.btn-request-payment {
+  margin-top: 20px;
+}
+
+
 /* Button Styles */
 
 .btn-green {

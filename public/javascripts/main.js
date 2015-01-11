@@ -49,10 +49,16 @@ $('.btn-select-trip').click(function() {
 
 $('.btn-add-friend').click(function() {
   var friendName = $('.friendEmail').typeahead('val'),
-      friend = _.findWhere(friends, {display_name: friendName}),
-      friendDiv = friendTemplate(friend);
+      friend = _.findWhere(friends, {display_name: friendName});
 
-  $(friendDiv)
+  if(!friend) {
+    friend = {
+      display_name: friendName,
+      profile_picture_url: "https://s3.amazonaws.com/venmo/no-image.gif"
+    }
+  }
+
+  $(friendTemplate(friend))
     .data('friend', friend)
     .appendTo('.splitList');
 
@@ -217,18 +223,13 @@ function initializeTypeahead() {
 
 
 function calculateSplit() {
-  console.log($('.splitList .friend'));
   var selectedFriends = $.each($('.splitList .friend'), function(friend) {
     console.log($(friend).data('friend'));
     return $(friend).data('friend');
   });
 
-  console.log(selectedFriends);
-
   var totalCost = selectedTrip.Distance * mileageRate,
       costPerPerson = totalCost / selectedFriends.length;
 
   $('.splitList .friend .friendCharge').html(formatCost(costPerPerson));
-
-
 }
