@@ -5,6 +5,10 @@ body {
   color: #FFF;
 }
 
+.content input {
+  color: #737c81;
+}
+
 .content h1 {
   text-align: center;
 }
