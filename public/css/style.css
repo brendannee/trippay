@@ -25,6 +25,7 @@ body.login {
 
 .wrapper {
   max-width: 410px;
+  min-width: 380px;
   margin: 0 auto;
 }
 
