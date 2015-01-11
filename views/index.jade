@@ -1,20 +1,18 @@
 extends layout
 
 block content
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-md-6.col-md-offset-3.description.tagline
-          h3 Easy payment splitting for shared trips!
-      .row
-      img.logo(src="/images/trip_pay_logo.png")
-      .row
-        .col-md-6.col-md-offset-3.sign-in.sign-in-bmw
-          a.center-block.btn.btn-primary.btn-lg.btn-sign-in(href="/authorize-bmw/" class=bmw ? 'disabled' : '')
-            span Sign in with BMW
-        .col-md-6.col-md-offset-3.sign-in-venmo
-          a.center-block.btn.btn-primary.btn-lg.btn-sign-in(href="/authorize-venmo/" class=bmw ? '' : 'disabled')
-            span Sign in with Venmo
+  .row
+    .col-md-6.col-md-offset-3.description.tagline
+      h3 Easy payment splitting for shared trips!
+  .row
+  img.logo(src="/images/trip_pay_logo.png")
+  .row
+    .col-md-6.col-md-offset-3.sign-in.sign-in-bmw
+      a.center-block.btn.btn-primary.btn-lg.btn-green.btn-sign-in(href="/authorize-bmw/" class=bmw ? 'disabled' : '')
+        span Sign in with BMW
+    .col-md-6.col-md-offset-3.sign-in-venmo
+      a.center-block.btn.btn-primary.btn-lg.btn-orange.btn-sign-in(href="/authorize-venmo/" class=bmw ? '' : 'disabled')
+        span Sign in with Venmo
 
 
 block scripts
