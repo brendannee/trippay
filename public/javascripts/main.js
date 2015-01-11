@@ -47,8 +47,6 @@ $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
   var tripId = $(e.target).data('tripId'),
       trip = _.findWhere(trips, {_id: tripId});
 
-    console.log('trip');
-
   if(trip) {
     renderTrip(trip);
   }

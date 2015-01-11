@@ -114,7 +114,6 @@ body.login {
   /*max-width: 320px; */
   background: url(../images/map_porthole.png) center 0 no-repeat;
   height: 290px;
-  z-index:-1;
 }
 
 .safari .mapContainer {
@@ -171,6 +170,8 @@ body.login {
   font-size: 11px;
   overflow: hidden;
   margin-top:-20px;
+  z-index: 100;
+  position: relative;
 }
 
 .tripData .from {
