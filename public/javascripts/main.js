@@ -169,11 +169,11 @@ function updateCost(trip) {
 
 
 function renderMap(trip) {
-  var map = L.mapbox.map('map', 'automatic.idonii25')
+  var map = L.mapbox.map('map', 'automatic.idonii25', {attributionControl: false, zoomControl: false})
       start = [trip.StartLocation.Lat, trip.StartLocation.Lng],
       end = [trip.LastKnownLocation.Lat, trip.LastKnownLocation.Lng];
 
-  map.fitBounds([start, end]);
+  map.fitBounds([start, end], {padding: [20, 20]});
 
   var startIcon = L.icon({
     iconUrl: '/images/marker_start.png',
