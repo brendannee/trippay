@@ -75,7 +75,7 @@ body.login {
 
 .btn-sign-in {
   position: fixed;
-  bottom: 70px;
+  bottom: 40px;
   left: 50%;
   margin-left: -125px;
   width: 250px;
