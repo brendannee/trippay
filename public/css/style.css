@@ -3,12 +3,13 @@ body {
 }
 
 body.login {
-  background: #72aa6a url("/images/title_bg.jpg") 0 0 no-repeat;
+  background: #72aa6a url(/images/title_bg.jpg) 0 0 no-repeat;
   background-size: 100% auto;
 }
 
 .titleBar {
-  background: url("../images/title_small_top.png") 0 0 no-repeat;
+  background: url(../images/title_small_top.png) 0 0 no-repeat;
+  background-size: auto 97px;
   width: 100%;
   height: 95px;
 }
@@ -118,6 +119,7 @@ body.login {
   position: relative;
   /*max-width: 320px; */
   background: url(../images/map_porthole.png) center 0 no-repeat;
+  background-size: 400px 286px;
   height: 290px;
 }
 
