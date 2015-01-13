@@ -2,9 +2,16 @@
 
 ## Setup
 
-    npm install
+Install node.js and gulp
+
+    brew install node
 
     npm install gulp -g
+
+## Install Dependencies
+
+    npm install
+
 
 Copy `config-sample.json` to `config.json` and add your config settings.
 

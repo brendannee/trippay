@@ -10,11 +10,6 @@ gulp.task('lint', function () {
   .pipe(plugins.jshint());
 });
 
-gulp.task('bower', function() {
-  return plugins.bower()
-    .pipe(gulp.dest('public/bower_components'));
-});
-
 gulp.task('develop', function () {
   plugins.nodemon({ script: 'bin/www', ext: 'jade js', ignore: ['public/javascripts/**'] })
   .on('change', ['lint'])
