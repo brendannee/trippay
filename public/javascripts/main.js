@@ -287,7 +287,9 @@ function initializeTypeahead() {
     source: substringMatcher(getTokens())
   }).on('typeahead:selected', function(e, friend) {
     $('.btn-add-friend').trigger('click');
-    $('.friendEmail').typeahead('val', '');
+    $('.friendEmail')
+      .typeahead('val', '')
+      .typeahead('close');
   });
 }
 
