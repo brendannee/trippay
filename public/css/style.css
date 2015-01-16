@@ -34,6 +34,11 @@ body.login {
   padding: 0 10px 10px;
 }
 
+body.login .content {
+  min-height: 635px;
+  position: relative;
+}
+
 .content input {
   color: #737c81;
 }
@@ -62,7 +67,8 @@ body.login {
   line-height: normal;
   font-weight: normal;
   width: 300px;
-  margin: 50px auto;
+  margin: 0 auto;
+  padding: 50px 0;
 }
 
 .logo {
@@ -75,15 +81,15 @@ body.login {
 /* Login Page */
 
 .btn-sign-in {
-  position: fixed;
+  position: absolute;
   bottom: 40px;
   left: 50%;
-  margin-left: -125px;
-  width: 250px;
 }
 
 .sign-in-venmo {
   padding-top: 10px;
+  margin-left: -145px;
+  width: 290px;
 }
 
 .sign-in-venmo .btn,
@@ -231,8 +237,6 @@ body.login {
   white-space: nowrap;
 }
 
-
-
 .boldText {
   font-weight: 600;
   font-size:15px;
@@ -258,8 +262,6 @@ body.login {
 .bottomData {
   padding-top:10px;
 }
-
-
 
 
 /* Friend List */
@@ -343,6 +345,7 @@ body.login {
   margin-top: 20px;
 }
 
+
 /* Success Page */
 
 .success-header {
@@ -408,6 +411,7 @@ body.login {
 .btn-orange.disabled {
   background-color: #f9b126;
 }
+
 
 /* Slider */
 
@@ -498,7 +502,7 @@ body.login {
 }
 
 
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   body.login {
     background-size: 500px auto;
     background-position: center 0;
