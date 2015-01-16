@@ -238,7 +238,7 @@ function updateTripControls(trip) {
 
 
 function renderSettings(data) {
-  if(settings && settings.rate) {
+  if(data && data.rate) {
     settings = data;
     settings.rate = parseFloat(settings.rate);
   }
