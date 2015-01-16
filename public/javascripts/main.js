@@ -56,7 +56,12 @@ $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
 $('.btn-select-trip').click(function() {
   selectedTrip = $('#trip').data('trip');
 
-  showFriendView();
+  if(!selectedTrip) {
+    showAlert('Please choose a trip');
+  } else {
+    hideAlert();
+    showFriendView();
+  }
 });
 
 
