@@ -64,6 +64,9 @@ app.get('/', routes.index);
 app.get('/authorize-automatic/', oauth.authorizeAutomatic);
 app.get('/redirect-automatic/', oauth.redirectAutomatic);
 
+/* Keep temporarily until redirect URL is update */
+app.get('/redirect-bmw/', oauth.redirectAutomatic);
+
 app.get('/authorize-venmo/', oauth.authorizeVenmo);
 app.get('/redirect-venmo/', oauth.redirectVenmo);
 

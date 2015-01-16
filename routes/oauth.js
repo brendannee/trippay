@@ -1,6 +1,5 @@
 var nconf = require('nconf'),
-    request = require('request'),
-    automaticApiUrl = 'https://api.automatic.com';
+    request = require('request');
 
 
 var oauth2Automatic = require('simple-oauth2')({
@@ -37,13 +36,13 @@ exports.authorizeAutomatic = function(req, res, next) {
 exports.redirectAutomatic = function (req, res, next) {
   var code = req.query.code;
 
-  oauth2.authCode.getToken({
+  oauth2Automatic.authCode.getToken({
     code: code
   }, function(e, result) {
     if(e) return next(e);
 
     // Attach `token` to the user's session for later use
-    var token = oauth2.accessToken.create(result);
+    var token = oauth2Automatic.accessToken.create(result);
 
     req.session.automatic_access_token = token.token.access_token;
     req.session.automatic_user_id = token.token.user.id;
