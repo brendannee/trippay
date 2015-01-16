@@ -68,7 +68,6 @@ $('.btn-add-friend').click(function() {
     return showAlert('Enter a friend name');
   }
 
-
   hideAlert();
 
   if(!friend) {
@@ -116,10 +115,17 @@ $('.includeSelf').change(function() {
   if($(this).is(':checked')) {
     $(friendTemplate(me))
       .data('friend', me)
+      .addClass('me')
       .prependTo('.splitList');
   } else {
     $('.splitList .friend').first().remove();
   }
+  calculateSplit();
+});
+
+
+$('.splitList').on('click', '.friendRemove', function() {
+  $(this).parents('.friend').remove();
   calculateSplit();
 });
 
@@ -135,6 +141,7 @@ function renderMe(data) {
 
   $(friendTemplate(me))
     .data('friend', me)
+    .addClass('me')
     .appendTo('.splitList');
 }
 
