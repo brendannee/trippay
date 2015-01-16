@@ -12,6 +12,7 @@ var tripTemplate = _.template($('#tripTemplate').html()),
     friendTemplate = _.template($('#friendTemplate').html()),
     me = {},
     trips = [],
+    page = 1,
     friends = [],
     selectedTrip,
     map;
@@ -40,7 +41,7 @@ if(squareMap()) {
 
 fetchFriends(renderFriends);
 fetchMe(renderMe);
-fetchTrips(renderTrips);
+fetchTrips(page, renderTrips);
 fetchSettings(renderSettings);
 
 
@@ -153,12 +154,32 @@ function renderMe(data) {
 
 
 function renderTrips(data) {
-  trips = data;
-  $('#loading').fadeOut('fast');
-  if(trips.length) {
-    renderTrip(trips[0]);
+  if(!trips.length) {
+    $('#loading').fadeOut('fast');
+
+    if(data.length) {
+      trips = trips.concat(data);
+      renderTrip(_.first(trips));
+    } else {
+      return showAlert('No Trips', 'error');
+    }
   } else {
-    showAlert('No Trips', 'error');
+    if(data.length) {
+      _.last(trips).prevTrip = _.first(data).id;
+      _.first(data).nextTrip = _.last(trips).id;
+      renderTrip(_.last(trips));
+      trips = trips.concat(data);
+    } else {
+      $('.prevTrip')
+        .removeClass('spinning')
+        .addClass('disabled');
+    }
+  }
+
+  if(data.length) {
+    page += 1;
+  } else {
+    page = undefined;
   }
 }
 
@@ -173,6 +194,10 @@ function renderTrip(trip) {
   renderMap(trip);
 
   updateTripControls(trip);
+
+  if(!trip.prevTrip) {
+    fetchTrips(page, renderTrips);
+  }
 }
 
 
@@ -232,7 +257,7 @@ function updateTripControls(trip) {
     .toggleClass('disabled', !trip.nextTrip)
     .data('tripId', trip.nextTrip);
   $('.prevTrip')
-    .toggleClass('disabled', !trip.prevTrip)
+    .toggleClass('spinner', !trip.prevTrip)
     .data('tripId', trip.prevTrip);
 }
 

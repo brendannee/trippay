@@ -1,6 +1,6 @@
 function fetchExpenses(cb) {
   showLoading();
-  $.getJSON('/api/expenses/')
+  $.get('/api/expenses/')
   .done(function(results) {
     expenses = results;
     cb();
@@ -8,20 +8,20 @@ function fetchExpenses(cb) {
 }
 
 
-function fetchTrips(cb) {
-  $.getJSON('/api/trips/').done(function(data) {
+function fetchTrips(page, cb) {
+  $.get('/api/trips/', { page: page }).done(function(data) {
     cb(data.map(formatTrip));
   });
 }
 
 
 function fetchFriends(cb) {
-  $.getJSON('/api/friends/').done(cb);
+  $.get('/api/friends/').done(cb);
 }
 
 
 function fetchMe(cb) {
-  $.getJSON('/api/me/').done(cb);
+  $.get('/api/me/').done(cb);
 }
 
 
@@ -36,7 +36,7 @@ function createExpense(trip, friends, costPerPerson, cb) {
 
 
 function fetchSettings(cb) {
-  $.getJSON('/api/settings/', cb);
+  $.get('/api/settings/', cb);
 }
 
 
