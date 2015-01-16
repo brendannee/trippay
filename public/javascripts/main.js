@@ -324,14 +324,14 @@ function calculateSplit() {
 
 function showTripView() {
   $('#success, #selectFriends').slideUp();
-  $('#selectTrip').removeClass('hide').show();
+  $('#selectTrip').removeClass('hide').slideDown();
   history.pushState({page: 'trips'}, 'trips');
 }
 
 
 function showFriendView() {
   $('#selectTrip, #success').slideUp();
-  $('#selectFriends').removeClass('hide').show();
+  $('#selectFriends').removeClass('hide').slideDown();
   history.pushState({page: 'friends'}, 'friends');
 
   initializeSlider();
@@ -341,7 +341,7 @@ function showFriendView() {
 
 function showSuccessView(friendCount) {
   $('#selectFriends, #selectTrip').slideUp();
-  $('#success').removeClass('hide').show();
+  $('#success').removeClass('hide').slideDown();
   $('.friendCount').text(' from ' + friendCount + ' friend' + ((friendCount > 1) ? 's' : ''));
   history.pushState({page: 'success'}, 'success');
 }
