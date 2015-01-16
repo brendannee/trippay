@@ -50,20 +50,20 @@ block scripts
       .topData
         .from
           label.allcapsLabel From
-          .fromAddress.boldText {{StartAddressAddress}}
-          .fromCity.lightText {{StartAddressCityState}}
+          .fromAddress.boldText {{startAddressFormatted}}
+          .fromCity.lightText {{startAddressCityState}}
         .to
           label.allcapsLabel To
-          .toAddress.boldText {{EndAddressAddress}}
-          .toCity.lightText {{EndAddressCityState}}
+          .toAddress.boldText {{endAddressFormatted}}
+          .toCity.lightText {{endAddressCityState}}
       .bottomData
         .cost
           label.allcapsLabel Cost
           .costData
         .when
           label.allcapsLabel When
-          .whenDate.boldText {{StartDate}}
-          .whenTime.lightText {{StartTimeFormatted}}
+          .whenDate.boldText {{startDate}}
+          .whenTime.lightText {{startTimeFormatted}}
           
   script(type="text/template" id="friendTemplate")
     .friend

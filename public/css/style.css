@@ -85,26 +85,22 @@ body.login .content {
   position: absolute;
   bottom: 40px;
   left: 50%;
-}
-
-.sign-in-venmo {
-  padding-top: 10px;
   margin-left: -145px;
   width: 290px;
 }
 
 .sign-in-venmo .btn,
-.sign-in-bmw .btn {
+.sign-in-automatic .btn {
   text-align: left;
   padding-left: 34px !important;
 }
 
-.sign-in-bmw {
-  color: #4f7549;
-}
-
 .sign-in-venmo {
   padding-top: 10px;
+}
+
+.sign-in-automatic {
+  color: #4f7549;
 }
 
 .btn-select-trip {
@@ -272,7 +268,7 @@ body.login .content {
   background: url(../images/h1_split_it_up.png) center 0 no-repeat;
   background-size: 239px 57px;
   height: 57px;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .mileageCostContainer {

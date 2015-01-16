@@ -61,9 +61,8 @@ if(app.get('env') === 'development') {
 
 app.get('/', routes.index);
 
-app.get('/authorize-bmw/', oauth.authorizeBmw);
-app.get('/redirect-bmw/', oauth.redirectBmw);
-app.post('/redirect-bmw/', oauth.saveBmw);
+app.get('/authorize-automatic/', oauth.authorizeAutomatic);
+app.get('/redirect-automatic/', oauth.redirectAutomatic);
 
 app.get('/authorize-venmo/', oauth.authorizeVenmo);
 app.get('/redirect-venmo/', oauth.redirectVenmo);

@@ -27,7 +27,7 @@ function fetchMe(cb) {
 
 function createExpense(trip, friends, costPerPerson, cb) {
   $.post('/api/expenses/', {
-    tripId: trip._id,
+    tripId: trip.id,
     friends: JSON.stringify(friends),
     costPerPerson: costPerPerson,
     note: formatNote(trip)
@@ -37,15 +37,16 @@ function createExpense(trip, friends, costPerPerson, cb) {
 
 function formatTrip(trip, idx, trips) {
   return _.extend(trip, {
-    StartAddressAddress: formatAddress(trip.StartAddress),
-    StartAddressCityState: formatCityState(trip.StartAddress),
-    EndAddressAddress: formatAddress(trip.EndAddress),
-    EndAddressCityState: formatCityState(trip.EndAddress),
-    StartDate: formatDate(trip.StartTime),
-    StartTimeFormatted: formatTime(trip.StartTime),
-    StartDateTime: formatDateTime(trip.StartTime),
-    EndDateTime: formatDateTime(trip.EndTime),
-    NextTrip: (idx > 0) ? trips[idx - 1]._id : null,
-    PrevTrip: (idx < (trips.length -1)) ? trips[idx + 1]._id : null
+    startAddressFormatted: formatAddress(trip.start_address),
+    startAddressCityState: formatCityState(trip.start_address),
+    endAddressFormatted: formatAddress(trip.end_address),
+    endAddressCityState: formatCityState(trip.end_address),
+    startDate: formatDate(trip.started_at),
+    startTimeFormatted: formatTime(trip.started_at),
+    startDateTime: formatDateTime(trip.started_at),
+    endDateTime: formatDateTime(trip.ended_at),
+    distance: m_to_mi(trip.distance_m),
+    nextTrip: (idx > 0) ? trips[idx - 1].id : null,
+    prevTrip: (idx < (trips.length -1)) ? trips[idx + 1].id : null
   });
 }

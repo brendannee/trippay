@@ -21,7 +21,7 @@ function hideAlert() {
 
 function formatAddress(address) {
   if(address) {
-    return address.Address1;
+    return address.street_number + ' ' + address.street_name;
   } else {
     return 'Unknown';
   }
@@ -30,7 +30,7 @@ function formatAddress(address) {
 
 function formatCityState(address) {
   if(address) {
-    return address.City + ', ' + address.State;
+    return address.city + ', ' + address.state;
   } else {
     return '';
   }
@@ -60,12 +60,12 @@ function formatDateTime(time) {
 
 
 function calculateTripCost(trip) {
-  if(!trip.Distance) {
+  if(!trip.distance) {
     return 0;
   } else if(!mileageRate) {
     return 0;
   } else {
-    return trip.Distance * mileageRate;
+    return trip.distance * mileageRate;
   }
 }
 
@@ -76,5 +76,10 @@ function formatCost(cost) {
 
 
 function formatNote(trip) {
-  return 'Splitting trip to ' + formatAddress(trip.StartAddress) + ', ' + formatCityState(trip.StartAddress) + ' on ' + formatDateTime(trip.StartTime);
+  return 'Splitting trip to ' + formatAddress(trip.start_address) + ', ' + formatCityState(trip.start_address) + ' on ' + formatDateTime(trip.started_at);
+}
+
+
+function m_to_mi(distance_m) {
+  return distance_m / 1609.34;
 }

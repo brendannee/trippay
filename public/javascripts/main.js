@@ -45,7 +45,7 @@ renderSettings();
 
 $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
   var tripId = $(e.target).data('tripId'),
-      trip = _.findWhere(trips, {_id: tripId});
+      trip = _.findWhere(trips, {id: tripId});
 
   if(trip) {
     renderTrip(trip);
@@ -177,49 +177,56 @@ function updateCost(trip) {
 
 function renderMap(trip) {
   var map = L.mapbox.map('map', 'automatic.idonii25', {attributionControl: false, zoomControl: false})
-      start = [trip.StartLocation.Lat, trip.StartLocation.Lng],
-      end = [trip.LastKnownLocation.Lat, trip.LastKnownLocation.Lng];
+      start = [trip.start_location.lat, trip.start_location.lon],
+      end = [trip.end_location.lat, trip.end_location.lon];
 
-  if(start[0] !== "NaN" && start[1] !== "NaN" && end[0] !== "NaN" && end[1] !== "NaN") {
-    map.fitBounds([start, end], {padding: [20, 20]});
+  if (trip.path) {
+    var polyline = L.Polyline.fromEncoded(trip.path, {color: '#08b1d5', opacity: 0.9});
 
-    var startIcon = L.icon({
-      iconUrl: '/images/marker_start.png',
-      iconSize: [70, 64],
-      iconAnchor: [35, 64],
-      popupAnchor: [0,-41],
-      shadowUrl: '/images/marker_shadow.png',
-      shadowSize: [70, 64],
-      shadowAnchor: [35, 64]
-    });
+    map.fitBounds(polyline.getBounds()).zoomOut();
 
-    var endIcon = L.icon({
-      iconUrl: '/images/marker_end.png',
-      iconSize: [70, 64],
-      iconAnchor: [35, 64],
-      popupAnchor: [0,-41],
-      shadowUrl: '/images/marker_shadow.png',
-      shadowSize: [70, 64],
-      shadowAnchor: [35, 64]
-    });
-
-    L.marker(start, {title: 'Start Location', icon: startIcon})
-      .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
-      .addTo(map);
-
-    L.marker(end, {title: 'End Location', icon: endIcon})
-      .bindPopup(trip.StartAddressFormatted + '<br>' + trip.StartCityState + trip.StartDateTime)
-      .addTo(map);
+    polyline.addTo(map);
+  } else {
+    map.fitBounds([start, end]);
   }
+
+  var startIcon = L.icon({
+    iconUrl: '/images/marker_start.png',
+    iconSize: [70, 64],
+    iconAnchor: [35, 50],
+    popupAnchor: [0,-44],
+    shadowUrl: '/images/marker_shadow.png',
+    shadowSize: [70, 64],
+    shadowAnchor: [35, 50]
+  });
+
+  var endIcon = L.icon({
+    iconUrl: '/images/marker_end.png',
+    iconSize: [70, 64],
+    iconAnchor: [35, 50],
+    popupAnchor: [0,-44],
+    shadowUrl: '/images/marker_shadow.png',
+    shadowSize: [70, 64],
+    shadowAnchor: [35, 50]
+  });
+
+  L.marker(start, {title: 'Start Location', icon: startIcon})
+    .bindPopup(trip.startAddressFormatted + '<br>' + trip.startAddressCityState + ' ' + trip.startDateTime)
+    .addTo(map);
+
+  L.marker(end, {title: 'End Location', icon: endIcon})
+    .bindPopup(trip.endAddressFormatted + '<br>' + trip.endAddressCityState + ' ' + trip.endDateTime)
+    .addTo(map);
 }
+
 
 function updateTripControls(trip) {
   $('.nextTrip')
-    .toggleClass('disabled', !trip.NextTrip)
-    .data('tripId', trip.NextTrip);
+    .toggleClass('disabled', !trip.nextTrip)
+    .data('tripId', trip.nextTrip);
   $('.prevTrip')
-    .toggleClass('disabled', !trip.PrevTrip)
-    .data('tripId', trip.PrevTrip);
+    .toggleClass('disabled', !trip.prevTrip)
+    .data('tripId', trip.prevTrip);
 }
 
 

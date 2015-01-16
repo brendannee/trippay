@@ -4,7 +4,7 @@ var nconf = require('nconf'),
     async = require('async'),
     db = require('../libs/database'),
     venmoApiUrl = 'https://api.venmo.com',
-    bmwApiUrl = 'http://data.api.hackthedrive.com';
+    automaticApiUrl = 'https://api.automatic.com';
 
 
 exports.createExpense = function(req, res, next) {
@@ -34,7 +34,7 @@ exports.createExpense = function(req, res, next) {
     if(e) return next(e)
 
     db.createExpense({
-      user_id: req.session.bmw_user_id,
+      user_id: req.session.automatic_id,
       trip_id: tripId,
       friends: friends,
       costPerPerson : costPerPerson
@@ -59,7 +59,7 @@ exports.createExpense = function(req, res, next) {
 
 
 exports.getExpenses = function(req, res, next) {
-  db.getExpenses(req.session.bmw_user_id, function(e, expenses) {
+  db.getExpenses(req.session.automatic_id, function(e, expenses) {
     if(e) return next(e);
     res.json(expenses);
   });
@@ -101,18 +101,52 @@ exports.getMe = function(req, res, next) {
 
 
 exports.getTrips = function(req, res, next) {
-  request.get({
-    uri: bmwApiUrl + '/v1/Trips',
-    qs: {limit: 100, desc: true},
-    headers: {MojioAPIToken: req.session.bmw_access_token},
-    json: true,
-    timeout: 10000
-  }, function(e, r, body) {
+  async.parallel([
+    function(cb) { downloadTrips(req, cb); },
+    function(cb) { downloadVehicles(req, cb); }
+  ], function(e, data) {
     if(e) return next(e);
-    if(body && body.Data) {
-      res.json(body.Data);
+
+    if(!data[0]) {
+      res.json([]);
     } else {
-      return next(new Error('Unable to get BMW Trips'));
+      res.json(mergeTripsAndVehicles(data[0], data[1]));
     }
   });
 };
+
+
+function downloadTrips(req, cb) {
+  request.get({
+    uri: automaticApiUrl + '/trip/',
+    headers: {Authorization: 'bearer ' + req.session.automatic_access_token},
+    json: true,
+    qs: {
+      limit: 25,
+      page: req.query.page
+    }
+  }, function(e, r, body) {
+    cb(e, body.results);
+  });
+}
+
+
+function downloadVehicles (req, cb) {
+  request.get({
+    uri: automaticApiUrl + '/vehicle/',
+    headers: {Authorization: 'bearer ' + req.session.automatic_access_token},
+    json: true
+  }, function(e, r, body) {
+    cb(e, body.results);
+  });
+}
+
+
+function mergeTripsAndVehicles(trips, vehicles) {
+  var vehicleObj = _.object(_.pluck(vehicles, 'url'), vehicles);
+
+  return trips.map(function(trip) {
+    trip.vehicle = vehicleObj[trip.vehicle];
+    return trip;
+  });
+}

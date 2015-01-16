@@ -1,18 +1,18 @@
 var nconf = require('nconf'),
     request = require('request'),
-    bmwApiUrl = 'http://data.api.hackthedrive.com';
+    automaticApiUrl = 'https://api.automatic.com';
 
 
-var oauth2Bmw = require('simple-oauth2')({
-  clientID: nconf.get('BMW_CLIENT_ID'),
-  clientSecret: nconf.get('BMW_CLIENT_SECRET'),
-  site: 'http://data.api.hackthedrive.com',
-  authorizationPath: '/oauth2/authorize'
+var oauth2Automatic = require('simple-oauth2')({
+  clientID: nconf.get('AUTOMATIC_CLIENT_ID'),
+  clientSecret: nconf.get('AUTOMATIC_CLIENT_SECRET'),
+  site: 'https://accounts.automatic.com',
+  tokenPath: '/oauth/access_token'
 });
 
 
-var bmwAuthorizationUri = oauth2Bmw.authCode.authorizeURL({
-  redirect_uri: nconf.get('URL') + '/redirect-bmw/'
+var automaticAuthorizationUri = oauth2Automatic.authCode.authorizeURL({
+  scope: 'scope:user:profile scope:trip scope:location scope:vehicle:profile scope:vehicle:events scope:behavior'
 });
 
 
@@ -29,42 +29,27 @@ var venmoAuthorizationUri = oauth2Venmo.authCode.authorizeURL({
 });
 
 
-exports.authorizeBmw = function(req, res, next) {
-  res.redirect(bmwAuthorizationUri.replace('code', 'token'));
+exports.authorizeAutomatic = function(req, res, next) {
+  res.redirect(automaticAuthorizationUri);
 };
 
 
-exports.redirectBmw = function (req, res, next) {
-  res.render('index', {bmw: true, page: 'login'});
+exports.redirectAutomatic = function (req, res, next) {
+  var code = req.query.code;
+
+  oauth2.authCode.getToken({
+    code: code
+  }, function(e, result) {
+    if(e) return next(e);
+
+    // Attach `token` to the user's session for later use
+    var token = oauth2.accessToken.create(result);
+
+    req.session.automatic_access_token = token.token.access_token;
+    req.session.automatic_user_id = token.token.user.id;
+    res.redirect('/');
+  });
 };
-
-
-exports.saveBmw = function(req, res, next) {
-  if(req.body.token) {
-    req.session.bmw_access_token = req.body.token;
-    console.log(req.session.bmw_access_token);
-
-    // get user id
-    request.get({
-      uri: bmwApiUrl + '/v1/Users',
-      qs: {limit: 1},
-      headers: {MojioAPIToken: req.session.bmw_access_token},
-      json: true
-    }, function(e, r, body) {
-      if(e) return next(e);
-
-      if(body && body.Data && body.Data.length) {
-        req.session.bmw_user_id = body.Data[0]._id;
-        console.log(req.session.bmw_user_id);
-        res.json({});
-      } else {
-        return next(new Error('Unable to get BMW User Id'))
-      }
-    });
-  } else {
-    return next(new Error('No Access Token'));
-  }
-}
 
 
 exports.authorizeVenmo = function(req, res, next) {
@@ -91,6 +76,7 @@ exports.redirectVenmo = function (req, res, next) {
     res.redirect('/');
   });
 };
+
 
 exports.logout = function(req, res, next) {
   req.session.destroy();
