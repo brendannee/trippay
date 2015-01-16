@@ -14,14 +14,15 @@ body.login {
   height: 95px;
 }
 
-#logout {
+.logout {
   color: #d38a00;
   float: right;
   padding: 5px 10px 0 0;
 }
 
-#trip {
-  min-height: 390px;
+.trip {
+  min-height: 415px;
+  margin-bottom: 15px;
 }
 
 .wrapper {
