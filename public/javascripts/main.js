@@ -17,7 +17,7 @@ var tripTemplate = _.template($('#tripTemplate').html()),
     map;
 
 // user settings
-var mileageRate = 0.56;
+var mileageRate = 0.57;
 
 history.pushState({page: 'trips'}, 'trips');
 
