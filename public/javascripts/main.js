@@ -154,6 +154,7 @@ function renderMe(data) {
 
 function renderTrips(data) {
   trips = data;
+  $('#loading').fadeOut('fast');
   if(trips.length) {
     renderTrip(trips[0]);
   } else {
