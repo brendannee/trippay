@@ -62,10 +62,10 @@ function formatDateTime(time) {
 function calculateTripCost(trip) {
   if(!trip.distance) {
     return 0;
-  } else if(!mileageRate) {
+  } else if(!settings.rate) {
     return 0;
   } else {
-    return trip.distance * mileageRate;
+    return trip.distance * settings.rate;
   }
 }
 

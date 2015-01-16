@@ -35,6 +35,21 @@ function createExpense(trip, friends, costPerPerson, cb) {
 }
 
 
+function fetchSettings(cb) {
+  $.getJSON('/api/settings/', cb);
+}
+
+
+function updateSettings(settings, cb) {
+  $.ajax({
+    url: '/api/settings/',
+    type: 'PUT',
+    data: settings
+  })
+  .done(cb);
+}
+
+
 function formatTrip(trip, idx, trips) {
   return _.extend(trip, {
     startAddressFormatted: formatAddress(trip.start_address),

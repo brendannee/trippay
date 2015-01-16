@@ -16,8 +16,9 @@ var tripTemplate = _.template($('#tripTemplate').html()),
     selectedTrip,
     map;
 
-// user settings
-var mileageRate = 0.57;
+var settings = {
+  rate: 0.57
+};
 
 history.pushState({page: 'trips'}, 'trips');
 
@@ -40,7 +41,7 @@ if(squareMap()) {
 fetchFriends(renderFriends);
 fetchMe(renderMe);
 fetchTrips(renderTrips);
-renderSettings();
+fetchSettings(renderSettings);
 
 
 $('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
@@ -235,8 +236,21 @@ function updateTripControls(trip) {
 }
 
 
-function renderSettings() {
-  $('.mileageRate').html(formatCost(mileageRate));
+function renderSettings(data) {
+  if(settings && settings.rate) {
+    settings = data;
+    settings.rate = parseFloat(settings.rate);
+  }
+  updateRate();
+}
+
+
+function updateRate() {
+  $('.mileageRate').html(formatCost(settings.rate));
+  var trip = $('#trip').data('trip');
+  if(trip) {
+    updateCost(trip);
+  }
 }
 
 
@@ -245,12 +259,15 @@ function initializeSlider() {
     min: 0,
     max: 1,
     step: 0.01,
-    value: mileageRate,
+    value: settings.rate,
     tooltip: 'hide'
   }).on('change', function() {
-    mileageRate = $(this).slider('getValue');
-    renderSettings();
+    settings.rate = parseFloat($(this).slider('getValue'));
+    updateRate();
     calculateSplit();
+  }).on('slideStop', function() {
+    settings.rate = $(this).slider('getValue');
+    updateSettings(settings);
   });
 }
 

@@ -401,7 +401,8 @@ body.login .content {
 }
 
 .btn-green:hover {
-  background-color: #4f7549;
+  background-color: #476741;
+  color: #FFF;
 }
 
 .btn-green.disabled {
@@ -419,7 +420,8 @@ body.login .content {
 }
 
 .btn-orange:hover {
-  background-color: #f9b126;
+  background-color: #DD9F27;
+  color: #4D4D4D;
 }
 
 .btn-orange.disabled {

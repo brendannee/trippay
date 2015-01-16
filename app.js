@@ -69,6 +69,9 @@ app.get('/redirect-venmo/', oauth.redirectVenmo);
 
 app.get('/logout/', oauth.logout);
 
+app.get('/api/settings', routes.authenticate, api.getSettings);
+app.put('/api/settings', routes.authenticate, api.updateSettings);
+
 app.get('/api/trips/', routes.authenticate, api.getTrips);
 app.get('/api/friends/', routes.authenticate, api.getFriends);
 app.get('/api/me/', routes.authenticate, api.getMe);

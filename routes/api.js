@@ -116,6 +116,22 @@ exports.getTrips = function(req, res, next) {
 };
 
 
+exports.getSettings = function(req, res, next) {
+  db.getSettings(req.session.automatic_user_id, function(e, settings) {
+    if(e) return next(e);
+    res.json(_.omit(settings, ['_id', 'automatic_id']));
+  });
+};
+
+
+exports.updateSettings = function(req, res, next) {
+  db.updateSettings(req.session.automatic_user_id, req.body, function(e) {
+    if(e) return next(e);
+    res.json({});
+  });
+};
+
+
 function downloadTrips(req, cb) {
   request.get({
     uri: automaticApiUrl + '/trip/',
