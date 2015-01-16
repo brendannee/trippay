@@ -34,11 +34,7 @@ body.login {
   color: #FFF;
   padding: 0 10px 10px;
   position: relative;
-}
-
-body.login .content {
-  min-height: 635px;
-  position: relative;
+  min-height: 518px;
 }
 
 .content input {
@@ -64,7 +60,7 @@ body.login .content {
 
 .tagline {
   color: #212121;
-  font-size: 130%;
+  font-size: 170%;
   text-align: center;
   line-height: normal;
   font-weight: normal;
@@ -541,5 +537,13 @@ body.login .content {
   body.login {
     background-size: 500px auto;
     background-position: center 0;
+  }
+
+  .content {
+    min-height: 660px;
+  }
+
+  .tagline {
+    padding-top: 90px;
   }
 }
