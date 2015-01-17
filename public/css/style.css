@@ -117,52 +117,41 @@ body.login {
 
 .mapContainer {
   position: relative;
-  /*max-width: 320px; */
+  height: 290px;
+  overflow: hidden;
+}
+
+.mapOverlay {
   background: url(../images/map_porthole.png) center 0 no-repeat;
   background-size: 400px 286px;
-  height: 290px;
-}
-
-.squareMap .mapContainer {
-  background: none;
-}
-
-.squareMap .mapContainer .map {
-  border: 1px solid #fff;
-  border-radius: 0;
+  min-width: 100%;
+  height: 286px;
+  position: absolute;
+  z-index: 2;
+  pointer-events: none
 }
 
 .map {
-  /*width: 250px;
-  height: 250px;
-  z-index: 0;
-  border-radius: 125px;
-  margin: 0 auto;*/
-  width: 270px;
-  height: 271px;
-  z-index: 0;
-  border-radius: 200px;
+  width: 305px;
+  height: 282px;
   margin: 0 auto;
-  top: 7px;
-  left: 1px;
+}
+
+.prevTrip, .nextTrip {
+  position: absolute;
+  top: 128px;
+  color: #ffd200;
+  cursor: pointer;
+  font-size: 1.7em;
+  z-index: 3;
 }
 
 .prevTrip {
-  position: absolute;
-  top: 115px;
   left: 0;
-  color: #ffd200;
-  cursor: pointer;
-  font-size: 1.7em;
 }
 
 .nextTrip {
-  position: absolute;
-  top: 115px;
   right: 0;
-  color: #ffd200;
-  cursor: pointer;
-  font-size: 1.7em;
 }
 
 .nextTrip:hover, .prevTrip:hover {
@@ -179,10 +168,6 @@ body.login {
   margin-top: -20px;
   z-index: 100;
   position: relative;
-}
-
-.squareMap .tripData {
-  margin-top: 0px;
 }
 
 .tripData .from {
@@ -545,5 +530,19 @@ body.login {
 
   .tagline {
     padding-top: 90px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mapContainer {
+    height: 250px;
+  }
+
+  .mapOverlay {
+    background-size: 350px 250px;
+  }
+
+  .prevTrip, .nextTrip {
+    top: 107px;
   }
 }

@@ -35,9 +35,6 @@ window.onpopstate = function (event) {
   }
 }
 
-if(squareMap()) {
-  $('body').addClass('squareMap');
-}
 
 fetchFriends(renderFriends);
 fetchMe(renderMe);
@@ -387,16 +384,4 @@ function showSuccessView(friendCount) {
   $('#success').removeClass('hide').slideDown();
   $('.friendCount').text(' from ' + friendCount + ' friend' + ((friendCount > 1) ? 's' : ''));
   history.pushState({page: 'success'}, 'success');
-}
-
-
-function squareMap() {
-  var ua = navigator.userAgent.toLowerCase();
-  if(ua.indexOf('android webview browser') != -1) {
-    return true;
-  } else if(ua.indexOf('safari') != -1) {
-    return (ua.indexOf('chrome') === -1);
-  } else {
-    return false;
-  }
 }
