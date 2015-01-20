@@ -55,7 +55,9 @@ app.use(session({
 }));
 
 
-if(app.get('env') === 'development') {
+if(app.get('env') !== 'development') {
+  app.all('*', routes.force_https);
+} else {
   app.all('*', routes.check_dev_token);
 }
 
@@ -63,9 +65,6 @@ app.get('/', routes.index);
 
 app.get('/authorize-automatic/', oauth.authorizeAutomatic);
 app.get('/redirect-automatic/', oauth.redirectAutomatic);
-
-/* Keep temporarily until redirect URL is update */
-app.get('/redirect-bmw/', oauth.redirectAutomatic);
 
 app.get('/authorize-venmo/', oauth.authorizeVenmo);
 app.get('/redirect-venmo/', oauth.redirectVenmo);
@@ -81,7 +80,6 @@ app.get('/api/me/', routes.authenticate, api.getMe);
 
 app.get('/api/expenses/', routes.authenticate, api.getExpenses);
 app.post('/api/expenses/', routes.authenticate, api.createExpense);
-
 
 // error handlers
 
