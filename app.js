@@ -56,7 +56,7 @@ app.use(session({
 
 
 if(app.get('env') !== 'development') {
-  app.all('*', routes.force_https);
+  //app.all('*', routes.force_https);
 } else {
   app.all('*', routes.check_dev_token);
 }
