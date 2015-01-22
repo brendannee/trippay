@@ -123,7 +123,7 @@ app.use(function(err, req, res, next) {
 
 // log all other errors
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
+  console.error(err.stack || err);
   next(err);
 });
 
