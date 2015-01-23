@@ -22,11 +22,12 @@ block content
         input.mileageRateSlider
         span.mileageLabel 1.00
     
-    .splitPeopleContainer  
-      label.splitBetweenLabel.allcapsLabel Split Between  
-      .includeSelfContainer
-        label Include self?
-        input.includeSelf(type="checkbox" checked)
+    .splitPeopleContainer
+      .splitListControls
+        label.splitBetweenLabel.allcapsLabel Split Between  
+        .includeSelfContainer
+          label Include self?
+          input.includeSelf(type="checkbox" checked)
       .splitList
       
       .btn.btn-orange.center-block.btn-request-payment Request Payment
@@ -76,5 +77,6 @@ block scripts
       .friendName {{display_name}}
       .friendCharge
       .friendRemove &times;
+      .friendResult
   
   script(src="/javascripts/main.js")

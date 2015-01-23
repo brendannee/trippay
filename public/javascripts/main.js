@@ -23,13 +23,11 @@ var settings = {
 
 history.pushState({page: 'trips'}, 'trips');
 
-window.onpopstate = function (event) {
+window.onpopstate = function(event) {
   if(event.state) {
     if(event.state.page === 'friends') {
       showFriendView();
-    } else if(event.state.page === 'success') {
-      showSuccessView();
-    } else if(event.state.page === 'trips') {
+    } else if(event.state.page === 'trips' || event.state.page === 'success') {
       showTripView();
     }
   }
@@ -103,9 +101,22 @@ $('.btn-request-payment').click(function() {
   $(this).prop('disabled', true);
 
   createExpense(selectedTrip, friendsToCharge, costPerPerson, function(data) {
-    $(this).prop('disabled', false);
-    //TODO: handle failure
-    showSuccessView(friendsToCharge.length);
+    var error = _.some(data, function(response) {
+      return !!response.error;
+    });
+
+    if(!error) {
+      showSuccessView(friendsToCharge.length);
+    } else {
+      $('.splitList .friend').not('.me').each(function(idx) {
+        if(data[idx].error) {
+          $(this).addClass('failed');
+          $('.friendResult', this).text('Failed: ' + data[idx].error.message);
+        } else {
+          $('.friendResult', this).text('Venmo Request Succeeded');
+        }
+      });
+    }
   });
 });
 
