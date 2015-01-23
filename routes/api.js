@@ -67,9 +67,10 @@ exports.getExpenses = function(req, res, next) {
 
 
 exports.getFriends = function(req, res, next) {
+  var limit = 10000;
   request.get({
     uri: venmoApiUrl + '/v1/users/' + req.session.venmo_user_id + '/friends',
-    qs: {access_token: req.session.venmo_access_token, limit: 200},
+    qs: {access_token: req.session.venmo_access_token, limit: limit},
     json: true,
     timeout: 10000
   }, function(e, r, body) {
