@@ -1,12 +1,18 @@
+var $ = jQuery = require('jquery'),
+    _ = require('underscore'),
+    moment = require('moment-timezone'),
+    helper = require('./helper'),
+    data = require('./data'),
+    map = require('./map');
+
+require('bootstrap');
+require('bootstrap-slider');
+require('typeahead.js');
+
 // Set underscore template settings
 _.templateSettings = {
   interpolate : /\{\{(.+?)\}\}/g
 };
-
-
-// Setup mapbox
-L.mapbox.accessToken = 'pk.eyJ1IjoiYXV0b21hdGljIiwiYSI6IldFaGdQa2MifQ.Q-jIc0EjcdTTft6zJVLw-A';
-
 
 var tripTemplate = _.template($('#tripTemplate').html()),
     friendTemplate = _.template($('#friendTemplate').html()),
@@ -31,16 +37,16 @@ window.onpopstate = function(event) {
       showTripView();
     }
   }
-}
+};
 
 
-fetchFriends(renderFriends);
-fetchMe(renderMe);
-fetchTrips(page, renderTrips);
-fetchSettings(renderSettings);
+data.fetchFriends(renderFriends);
+data.fetchMe(renderMe);
+data.fetchTrips(page, renderTrips);
+data.fetchSettings(renderSettings);
 
 
-$('#trip').on('click', '.nextTrip, .prevTrip', function(e) {
+$('#trip').on('click', '.next-trip, .prev-trip', function(e) {
   var tripId = $(e.target).data('tripId'),
       trip = _.findWhere(trips, {id: tripId});
 
@@ -54,34 +60,34 @@ $('.btn-select-trip').click(function() {
   selectedTrip = $('#trip').data('trip');
 
   if(!selectedTrip) {
-    showAlert('Please choose a trip');
+    helper.showAlert('Please choose a trip');
   } else {
-    hideAlert();
+    helper.hideAlert();
     showFriendView();
   }
 });
 
 
 $('.btn-add-friend').click(function() {
-  var friendName = $('.friendEmail').typeahead('val'),
+  var friendName = $('.friend-email').typeahead('val'),
       friend = _.findWhere(friends, {display_name: friendName});
 
   if(!friendName) {
-    return showAlert('Enter a friend name');
+    return helper.showAlert('Enter a friend name');
   }
 
-  hideAlert();
+  helper.hideAlert();
 
   if(!friend) {
     friend = {
       display_name: friendName,
       profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif'
-    }
+    };
   }
 
   $(friendTemplate(friend))
     .data('friend', friend)
-    .appendTo('.splitList');
+    .appendTo('.split-list');
 
   calculateSplit();
 });
@@ -89,18 +95,18 @@ $('.btn-add-friend').click(function() {
 
 $('.btn-request-payment').click(function() {
   var selectedFriends = getSelectedFriends(),
-      costPerPerson = calculateTripCost(selectedTrip) / selectedFriends.length,
+      costPerPerson = helper.calculateTripCost(selectedTrip, settings) / selectedFriends.length,
       friendsToCharge = _.reject(selectedFriends, function(friend) {
         return !!friend.is_me;
       });
 
   if(!friendsToCharge.length) {
-    return showAlert('Select at least one friend to charge');
+    return helper.showAlert('Select at least one friend to charge');
   }
 
   $(this).prop('disabled', true);
 
-  createExpense(selectedTrip, friendsToCharge, costPerPerson, function(data) {
+  data.createExpense(selectedTrip, friendsToCharge, costPerPerson, function(data) {
     var error = _.some(data, function(response) {
       return !!response.error;
     });
@@ -108,12 +114,12 @@ $('.btn-request-payment').click(function() {
     if(!error) {
       showSuccessView(friendsToCharge.length);
     } else {
-      $('.splitList .friend').not('.me').each(function(idx) {
+      $('.split-list .friend').not('.me').each(function(idx) {
         if(data[idx].error) {
           $(this).addClass('failed');
-          $('.friendResult', this).text('Failed: ' + data[idx].error.message);
+          $('.friend-result', this).text('Failed: ' + data[idx].error.message);
         } else {
-          $('.friendResult', this).text('Venmo Request Succeeded');
+          $('.friend-result', this).text('Venmo Request Succeeded');
         }
       });
     }
@@ -126,20 +132,20 @@ $('.btn-show-trips').click(function() {
 });
 
 
-$('.includeSelf').change(function() {
+$('.include-self').change(function() {
   if($(this).is(':checked')) {
     $(friendTemplate(me))
       .data('friend', me)
       .addClass('me')
-      .prependTo('.splitList');
+      .prependTo('.split-list');
   } else {
-    $('.splitList .friend').first().remove();
+    $('.split-list .friend').first().remove();
   }
   calculateSplit();
 });
 
 
-$('.splitList').on('click', '.friendRemove', function() {
+$('.split-list').on('click', '.friend-remove', function() {
   $(this).parents('.friend').remove();
   calculateSplit();
 });
@@ -157,7 +163,7 @@ function renderMe(data) {
   $(friendTemplate(me))
     .data('friend', me)
     .addClass('me')
-    .appendTo('.splitList');
+    .appendTo('.split-list');
 }
 
 
@@ -169,7 +175,7 @@ function renderTrips(data) {
       trips = trips.concat(data);
       renderTrip(_.first(trips));
     } else {
-      return showAlert('No Trips', 'error');
+      return helper.showAlert('No Trips', 'error');
     }
   } else {
     if(data.length) {
@@ -178,7 +184,7 @@ function renderTrips(data) {
       renderTrip(_.last(trips));
       trips = trips.concat(data);
     } else {
-      $('.prevTrip')
+      $('.prev-trip')
         .removeClass('spinning')
         .addClass('disabled');
     }
@@ -199,72 +205,27 @@ function renderTrip(trip) {
 
   updateCost(trip);
 
-  renderMap(trip);
+  map.renderMap(trip);
 
   updateTripControls(trip);
 
   if(!trip.prevTrip) {
-    fetchTrips(page, renderTrips);
+    data.fetchTrips(page, renderTrips);
   }
 }
 
 
 function updateCost(trip) {
-  var tripCost = calculateTripCost(trip);
-  $('#trip .costData').html(formatCost(tripCost));
-}
-
-
-function renderMap(trip) {
-  var map = L.mapbox.map('map', 'automatic.idonii25', {attributionControl: false, zoomControl: false})
-      start = [trip.start_location.lat, trip.start_location.lon],
-      end = [trip.end_location.lat, trip.end_location.lon];
-
-  if (trip.path) {
-    var polyline = L.Polyline.fromEncoded(trip.path, {color: '#08b1d5', opacity: 0.9});
-
-    map.fitBounds(polyline.getBounds()).zoomOut();
-
-    polyline.addTo(map);
-  } else {
-    map.fitBounds([start, end]);
-  }
-
-  var startIcon = L.icon({
-    iconUrl: '/images/marker_start.png',
-    iconSize: [70, 64],
-    iconAnchor: [35, 50],
-    popupAnchor: [0,-44],
-    shadowUrl: '/images/marker_shadow.png',
-    shadowSize: [70, 64],
-    shadowAnchor: [35, 50]
-  });
-
-  var endIcon = L.icon({
-    iconUrl: '/images/marker_end.png',
-    iconSize: [70, 64],
-    iconAnchor: [35, 50],
-    popupAnchor: [0,-44],
-    shadowUrl: '/images/marker_shadow.png',
-    shadowSize: [70, 64],
-    shadowAnchor: [35, 50]
-  });
-
-  L.marker(start, {title: 'Start Location', icon: startIcon})
-    .bindPopup(trip.startAddressFormatted + '<br>' + trip.startAddressCityState + ' ' + trip.startDateTime)
-    .addTo(map);
-
-  L.marker(end, {title: 'End Location', icon: endIcon})
-    .bindPopup(trip.endAddressFormatted + '<br>' + trip.endAddressCityState + ' ' + trip.endDateTime)
-    .addTo(map);
+  var tripCost = helper.calculateTripCost(trip, settings);
+  $('#trip .cost-data').html(helper.formatCost(tripCost));
 }
 
 
 function updateTripControls(trip) {
-  $('.nextTrip')
+  $('.next-trip')
     .toggleClass('disabled', !trip.nextTrip)
     .data('tripId', trip.nextTrip);
-  $('.prevTrip')
+  $('.prev-trip')
     .toggleClass('spinner', !trip.prevTrip)
     .data('tripId', trip.prevTrip);
 }
@@ -280,7 +241,7 @@ function renderSettings(data) {
 
 
 function updateRate() {
-  $('.mileageRate').html(formatCost(settings.rate));
+  $('.mileage-rate').html(helper.formatCost(settings.rate));
   var trip = $('#trip').data('trip');
   if(trip) {
     updateCost(trip);
@@ -289,7 +250,7 @@ function updateRate() {
 
 
 function initializeSlider() {
-  $('.mileageRateSlider').slider({
+  $('.mileage-rate-slider').slider({
     min: 0,
     max: 1,
     step: 0.01,
@@ -301,7 +262,7 @@ function initializeSlider() {
     calculateSplit();
   }).on('slideStop', function() {
     settings.rate = $(this).slider('getValue');
-    updateSettings(settings);
+    data.updateSettings(settings);
   });
 }
 
@@ -339,7 +300,7 @@ function initializeTypeahead() {
     return tokens;
   }
 
-  $('.friendEmail').typeahead({
+  $('.friend-email').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
@@ -350,7 +311,7 @@ function initializeTypeahead() {
     source: substringMatcher(getTokens())
   }).on('typeahead:selected', function(e, friend) {
     $('.btn-add-friend').trigger('click');
-    $('.friendEmail')
+    $('.friend-email')
       .typeahead('val', '')
       .typeahead('close');
   });
@@ -358,7 +319,7 @@ function initializeTypeahead() {
 
 
 function getSelectedFriends() {
-  return $.map($('.splitList .friend'), function(friend) {
+  return $.map($('.split-list .friend'), function(friend) {
     return $(friend).data('friend');
   });
 }
@@ -366,10 +327,10 @@ function getSelectedFriends() {
 
 function calculateSplit() {
   var selectedFriends = getSelectedFriends(),
-      totalCost = calculateTripCost(selectedTrip),
+      totalCost = helper.calculateTripCost(selectedTrip, settings),
       costPerPerson = totalCost / selectedFriends.length;
 
-  $('.splitList .friend .friendCharge').html(formatCost(costPerPerson));
+  $('.split-list .friend .friend-charge').html(helper.formatCost(costPerPerson));
 }
 
 
