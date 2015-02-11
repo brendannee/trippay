@@ -10,33 +10,33 @@ block content
   #selectFriends.hide
     h1.split-it-up Split it up
     
-    .friendEmailContainer
-      input.friendEmail.typeahead(type="text" placeholder="Enter an email or phone no")
+    .friend-email-container
+      input.friend-email.typeahead(type="text" placeholder="Enter an email or phone no")
       button.btn.btn-default.btn-add-friend Add
       
-    .mileageCostContainer
-      label.allcapsLabel Cost Per Mile
-      .mileageRate
-      .mileageRateSliderContainer
-        span.mileageLabel 0
-        input.mileageRateSlider
-        span.mileageLabel 1.00
+    .mileage-cost-container
+      label.allcaps-label Cost Per Mile
+      .mileage-rate
+      .mileage-rate-slider-container
+        span.mileage-label 0
+        input.mileage-rate-slider
+        span.mileage-label 1.00
     
-    .splitPeopleContainer
-      .splitListControls
-        label.splitBetweenLabel.allcapsLabel Split Between  
-        .includeSelfContainer
+    .split-people-container
+      .split-list-controls
+        label.split-between-label.allcaps-label Split Between  
+        .include-self-container
           label Include self?
-          input.includeSelf(type="checkbox" checked)
-      .splitList
+          input.include-self(type="checkbox" checked)
+      .split-list
       
       .btn.btn-orange.center-block.btn-request-payment Request Payment
     
   #success.hide
     h1.success-header Success
-    .successImage
+    .success-image
     
-    .successText Payment has been requested<span class="friendCount"></span>.
+    .success-text Payment has been requested<span class="friendCount"></span>.
     
     .btn.btn-green.center-block.btn-show-trips Again!
     
@@ -47,36 +47,36 @@ block content
 
 block scripts
   script(type="text/template" id="tripTemplate")
-    .mapContainer
-      .prevTrip &#9664;
-      .mapOverlay
+    .map-container
+      .prev-trip &#9664;
+      .map-overlay
       #map.map
-      .nextTrip &#9654;
-    .tripData
-      .topData
+      .next-trip &#9654;
+    .trip-data
+      .top-data
         .from
-          label.allcapsLabel From
-          .fromAddress.boldText {{startAddressFormatted}}
-          .fromCity.lightText {{startAddressCityState}}
+          label.allcaps-label From
+          .from-address.bold-text {{startAddressFormatted}}
+          .from-city.light-text {{startAddressCityState}}
         .to
-          label.allcapsLabel To
-          .toAddress.boldText {{endAddressFormatted}}
-          .toCity.lightText {{endAddressCityState}}
-      .bottomData
+          label.allcaps-label To
+          .to-address.bold-text {{endAddressFormatted}}
+          .to-city.light-text {{endAddressCityState}}
+      .bottom-data
         .cost
-          label.allcapsLabel Cost
-          .costData
+          label.allcaps-label Cost
+          .cost-data
         .when
-          label.allcapsLabel When
-          .whenDate.boldText {{startDate}}
-          .whenTime.lightText {{startTimeFormatted}}
+          label.allcaps-label When
+          .whenDate.bold-text {{startDate}}
+          .whenTime.light-text {{startTimeFormatted}}
           
   script(type="text/template" id="friendTemplate")
     .friend
       img(src="{{profile_picture_url}}")
-      .friendName {{display_name}}
-      .friendCharge
-      .friendRemove &times;
-      .friendResult
+      .friend-name {{display_name}}
+      .friend-charge
+      .friend-remove &times;
+      .friend-result
   
   script(src="/dest/bundle.js")
