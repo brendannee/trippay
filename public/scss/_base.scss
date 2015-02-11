@@ -1,8 +1,14 @@
 body {
   font-family: 'Roboto', sans-serif;
   color: #737c81;
+  background-color: #72aa6a;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: inherit;
   font-weight: normal;
 }
@@ -32,5 +38,5 @@ a {
 }
 a:hover {
   text-decoration: none;
-  color: #82C9F1;
+  color: #82c9f1;
 }
