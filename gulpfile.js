@@ -77,9 +77,7 @@ gulp.task('bower', function() {
 
 
 gulp.task('develop', function() {
-  plugins.express.run({
-    file: 'bin/www'
-  });
+  plugins.express.run(['bin/www']);
 
   //watch for template changes
   gulp.watch(['views/**/*.jade'], plugins.express.notify);
@@ -95,9 +93,7 @@ gulp.task('develop', function() {
 
   //watch for back-end js changes
   gulp.watch(['app.js', 'routes/**/*.js', 'libs/**/*.js'], function() {
-    plugins.express.run({
-      file: 'bin/www'
-    });
+    plugins.express.run(['bin/www']);
   });
 });
 
