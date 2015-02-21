@@ -33,8 +33,7 @@ gulp.task('scss:compileDev', function() {
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass({errLogToConsole: true}))
     .pipe(plugins.sourcemaps.write())
-    .pipe(gulp.dest('./public/css'))
-    .pipe(plugins.express.notify());
+    .pipe(gulp.dest('./public/css'));
 });
 
 
@@ -84,6 +83,9 @@ gulp.task('develop', function() {
 
   //watch for sass changes
   gulp.watch(['public/scss/**/*.scss'], ['scss:develop']);
+
+  //watch for css changes
+  gulp.watch(['public/css/**/*.css'], plugins.express.notify);
 
   //watch for front-end js changes
   gulp.watch(['public/javascripts/**/*.js'], ['js:develop']);

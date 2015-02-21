@@ -17,6 +17,7 @@ if(app.get('env') !== 'development') {
 	nconf.set('URL', 'http://trippay.co');
 } else {
 	nconf.set('URL', 'http://localhost:3000');
+	app.use(require('connect-livereload')());
 }
 
 var routes = require('./routes');

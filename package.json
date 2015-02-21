@@ -63,6 +63,7 @@
     "postinstall": "./node_modules/gulp/bin/gulp.js build"
   },
   "devDependencies": {
+    "connect-livereload": "^0.5.3",
     "gulp-express": "^0.1.11",
     "gulp-jshint": "~1.9.2",
     "gulp-scss-lint": "^0.1.7"
