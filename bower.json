@@ -14,6 +14,6 @@
     "bootstrap": "~3.3.2",
     "css-spinners": "~1.0.2",
     "mapbox.js": "~2.1.5",
-    "seiyria-bootstrap-slider": "~4.4.0"
+    "seiyria-bootstrap-slider": "~4.5.1"
   }
 }
