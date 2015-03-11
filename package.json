@@ -50,8 +50,7 @@
     "simple-oauth2": "~0.2.x",
     "typeahead.js": "~0.10.5",
     "underscore": "~1.8.2",
-    "vinyl-buffer": "~1.0.0",
-    "vinyl-source-stream": "~1.0.0",
+    "vinyl-transform": "~1.0.0",
     "watchify": "^2.4.0"
   },
   "engines": {
@@ -66,6 +65,8 @@
     "connect-livereload": "^0.5.3",
     "gulp-express": "^0.1.13",
     "gulp-jshint": "~1.9.2",
-    "gulp-scss-lint": "^0.1.7"
+    "gulp-scss-lint": "^0.1.10",
+    "vinyl-buffer": "~1.0.0",
+    "vinyl-source-stream": "~1.1.0"
   }
 }

@@ -1,17 +1,18 @@
 var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
+var transform = require('vinyl-transform');
 var watchify = require('watchify');
 var browserify = require('browserify');
-
-var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args));
-bundler.on('update', bundle);
 
 //Load all gulp-prefixed plugins
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
+
+
+var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args));
+bundler.on('update', bundle);
+bundler.on('log', plugins.util.log);
 
 
 gulp.task('jshint', function() {
@@ -57,14 +58,23 @@ gulp.task('js:develop', ['jshint'], function() {
 });
 
 
-gulp.task('js:compress', ['js:bundle'], function() {
-  gulp.src('./public/dest/bundle.js')
+gulp.task('js:compress', ['js:browserify'], function() {
+  gulp.src('./public/dest/index.js')
     .pipe(plugins.uglify())
     .pipe(gulp.dest('./public/dest'));
 });
 
 
-gulp.task('js:bundle', bundle);
+gulp.task('js:browserify', function() {
+  var browserified = transform(function(filename) {
+    var b = browserify(filename)
+    return b.bundle();
+  });
+
+  return gulp.src(['./public/javascripts/index.js'])
+    .pipe(browserified)
+    .pipe(gulp.dest('./public/dest'));
+});
 
 
 gulp.task('scss:develop', ['scss:lint', 'scss:compileDev']);
@@ -113,10 +123,10 @@ function bundle() {
   return bundler.bundle()
     // log errors
     .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
-    .pipe(source('bundle.js'))
+    .pipe(require('vinyl-source-stream')('index.js'))
     // build sourcemaps
-    .pipe(buffer())
-    .pipe(plugins.sourcemaps.init({loadMaps: true}))
-    .pipe(plugins.sourcemaps.write('./'))
+    .pipe(require('vinyl-buffer')())
+    .pipe(plugins.sourcemaps.init({loadMaps: true})) // loads map from browserify file
+    .pipe(plugins.sourcemaps.write('./')) // writes .map file
     .pipe(gulp.dest('./public/dest'));
 }
