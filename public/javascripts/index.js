@@ -5,7 +5,7 @@ var $ = jQuery = require('jquery'),
     data = require('./data'),
     map = require('./map');
 
-require('bootstrap');
+require('bootstrap-sass');
 require('bootstrap-slider');
 require('typeahead.js');
 

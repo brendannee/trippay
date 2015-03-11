@@ -38,7 +38,7 @@ gulp.task('scss:compileDev', function() {
 });
 
 
-gulp.task('scss:compile', function() {
+gulp.task('scss:compile', ['fonts:copy'], function() {
   gulp.src('./public/scss/**/*.scss')
     .pipe(plugins.sass({errLogToConsole: true}))
     .pipe(gulp.dest('./public/css'));
@@ -80,9 +80,17 @@ gulp.task('js:browserify', function() {
 gulp.task('scss:develop', ['scss:lint', 'scss:compileDev']);
 
 
-gulp.task('bower', function() {
-  return plugins.bower();
+gulp.task('fonts:copy', function() {
+  gulp.src(['./node_modules/bootstrap-sass/assets/fonts/bootstrap/*'])
+    .pipe(gulp.dest('./public/dest/fonts'));
 });
+
+
+gulp.task('css:copy', function() {
+  gulp.src(['./node_modules/mapbox.js/theme/**/*', './node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css'])
+    .pipe(gulp.dest('./public/css/vendor'));
+});
+
 
 
 gulp.task('develop', function() {
@@ -111,12 +119,11 @@ gulp.task('develop', function() {
 
 
 gulp.task('build', [
-  'bower',
+  'fonts:copy',
+  'css:copy',
   'css:minify',
   'js:compress'
-], function() {
-  process.exit();
-});
+]);
 
 
 function bundle() {

@@ -1,4 +1,11 @@
-@import 'base';
+// Set bootstrap font defaults
+$font-family-sans-serif: AvenirNextPro;
+$icon-font-path: "../dest/fonts/";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+@import "base";
+@import "spinner";
 
 .login {
   background: #72aa6a url('/images/title_bg.jpg') 0 0 no-repeat;

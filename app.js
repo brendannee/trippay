@@ -8,8 +8,10 @@ var bodyParser = require('body-parser');
 var nconf = require('nconf');
 var session = require('express-session');
 
-nconf.env().argv();
-nconf.file('./config.json');
+nconf
+  .argv()
+  .env()
+  .file({file:'./config.json'});
 
 var app = express();
 
