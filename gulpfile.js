@@ -24,7 +24,7 @@ gulp.task('jshint', function() {
 
 gulp.task('scss:lint', function() {
   gulp.src('./public/scss/**/*.scss')
-    .pipe(plugins.scssLint({config: 'lint.yml'}));
+    .pipe(plugins.scssLint());
 });
 
 
