@@ -43,10 +43,16 @@ if(app.get('env') !== 'development') {
         host: redisURL.hostname,
         port: redisURL.port,
         pass: redisURL.auth.split(':')[1]
-      });
+      }),
+      cookie = {
+        maxAge: 31536000000
+      };
 } else {
   var memoryStore = session.MemoryStore,
-      store = new memoryStore();
+      store = new memoryStore(),
+      cookie = {
+        maxAge: 3600000,
+      };
 }
 
 
@@ -54,7 +60,8 @@ app.use(session({
   store: store,
   secret: nconf.get('SESSION_SECRET'),
   saveUninitialized: true,
-  resave: true
+  resave: true,
+  cookie: cookie
 }));
 
 
