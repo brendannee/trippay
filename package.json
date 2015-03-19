@@ -61,9 +61,9 @@
   },
   "devDependencies": {
     "connect-livereload": "^0.5.3",
-    "gulp-express": "^0.3.0",
     "gulp-jshint": "~1.9.2",
     "gulp-scss-lint": "^0.1.10",
+    "gulp-live-server": "~0.0.6",
     "vinyl-buffer": "~1.0.0",
     "vinyl-source-stream": "~1.1.0"
   }

@@ -2,17 +2,26 @@ var gulp = require('gulp');
 var transform = require('vinyl-transform');
 var watchify = require('watchify');
 var browserify = require('browserify');
-
-//Load all gulp-prefixed plugins
-var plugins = require("gulp-load-plugins")({
-  pattern: ['gulp-*', 'gulp.*'],
-  replaceString: /\bgulp[\-.]/
-});
+var reactify = require('reactify');
+var plugins = require("gulp-load-plugins")();
 
 
-var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args));
+var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args).transform(reactify));
 bundler.on('update', bundle);
 bundler.on('log', plugins.util.log);
+
+
+function bundle() {
+  return bundler.bundle()
+    // log errors
+    .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
+    .pipe(require('vinyl-source-stream')('index.js'))
+    // build sourcemaps
+    .pipe(require('vinyl-buffer')())
+    .pipe(plugins.sourcemaps.init({loadMaps: true})) // loads map from browserify file
+    .pipe(plugins.sourcemaps.write('./')) // writes .map file
+    .pipe(gulp.dest('./public/dest'));
+}
 
 
 gulp.task('jshint', function() {
@@ -53,8 +62,7 @@ gulp.task('css:minify', ['scss:compile'], function() {
 
 
 gulp.task('js:develop', ['jshint'], function() {
-  bundle()
-    .pipe(plugins.express.notify());
+  bundle();
 });
 
 
@@ -67,7 +75,8 @@ gulp.task('js:compress', ['js:browserify'], function() {
 
 gulp.task('js:browserify', function() {
   var browserified = transform(function(filename) {
-    var b = browserify(filename)
+    var b = browserify(filename);
+    b.transform(reactify);
     return b.bundle();
   });
 
@@ -92,29 +101,31 @@ gulp.task('css:copy', function() {
 });
 
 
-
 gulp.task('develop', function() {
-  plugins.express.run(['bin/www']);
-
-  //watch for template changes
-  gulp.watch(['views/**/*.jade'], plugins.express.notify);
+  var server = plugins.liveServer.new('bin/www');
+  server.start();
 
   //watch for sass changes
   gulp.watch(['public/scss/**/*.scss'], ['scss:develop']);
 
-  //watch for css changes
-  gulp.watch(['public/css/**/*.css'], plugins.express.notify);
+  //watch for jsx changes
+  gulp.watch(['public/jsx/**/*.jsx'], ['js:develop']);
 
-  //watch for front-end js changes
-  gulp.watch(['public/javascripts/**/*.js'], ['js:develop']);
-
-  //watch for image changes
-  gulp.watch(['public/images/**/*'], plugins.express.notify);
+  //watch for front-end changes
+  gulp.watch([
+    'public/javascripts/**/*.js',
+    'public/dest/**/*.js',
+    'public/css/**/*.css',
+    'public/images/**/*',
+    'views/**/*.jade'
+  ], server.notify);
 
   //watch for back-end js changes
-  gulp.watch(['app.js', 'routes/**/*.js', 'libs/**/*.js'], function() {
-    plugins.express.run(['bin/www']);
-  });
+  gulp.watch([
+    'app.js',
+    'routes/**/*.js',
+    'libs/**/*.js'
+  ], server.start);
 });
 
 
@@ -124,16 +135,3 @@ gulp.task('build', [
   'css:minify',
   'js:compress'
 ]);
-
-
-function bundle() {
-  return bundler.bundle()
-    // log errors
-    .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
-    .pipe(require('vinyl-source-stream')('index.js'))
-    // build sourcemaps
-    .pipe(require('vinyl-buffer')())
-    .pipe(plugins.sourcemaps.init({loadMaps: true})) // loads map from browserify file
-    .pipe(plugins.sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./public/dest'));
-}
