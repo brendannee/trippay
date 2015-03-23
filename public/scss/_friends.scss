@@ -1,0 +1,110 @@
+
+.split-it-up {
+  text-indent: -9999px;
+  background: url('../images/h1_split_it_up.png') center 0 no-repeat;
+  background-size: 239px 57px;
+  height: 57px;
+  margin: 10px 0;
+}
+
+.mileage-cost-container {
+  padding: 15px 0 5px;
+
+  label {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mileage-rate {
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .mileage-rate-slider-container {
+    text-align: center;
+
+    .mileage-label {
+      padding: 12px;
+    }
+  }
+}
+
+.split-people-container {
+  padding: 20px 0 0;
+}
+
+.split-list-controls {
+  padding: 0 30px;
+}
+
+.split-between-label {
+  float: left;
+}
+
+.include-self-container {
+  float: right;
+
+  .include-self {
+    margin-left: 5px;
+  }
+}
+
+.split-list {
+  clear: both;
+}
+
+.friend {
+  padding: 5px 30px;
+  position: relative;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    float: left;
+  }
+
+  .friend-name {
+    display: inline-block;
+    padding-left: 10px;
+    line-height: 50px;
+    font-weight: 500;
+  }
+
+  .friend-charge {
+    float: right;
+    width: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    margin-right: 11px;
+  }
+
+  .friend-remove {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 30px;
+
+    &:hover {
+      color: rgb(153, 43, 43);
+    }
+  }
+
+  &.me .friend-remove {
+    display: none;
+  }
+
+  .friend-result {
+    text-align: center;
+    font-size: 16px;
+  }
+
+  &.failed {
+    color: rgb(153, 43, 43);
+    background: rgba(153, 43, 43, 0.3);
+  }
+}
+
+.btn-request-payment {
+  margin: 20px 30px 0;
+}

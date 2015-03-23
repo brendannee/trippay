@@ -1,0 +1,37 @@
+.btn-green {
+  color: #fff;
+  background-color: #4f7549;
+  border-color: #3d6437;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 9px 12px !important;
+
+  &:hover {
+    background-color: #476741;
+    color: #fff;
+  }
+
+  &.disabled {
+    background-color: #4f7549;
+  }
+}
+
+.btn-orange {
+  color: #fff;
+  background-color: #f9b126;
+  border-color: #ba9144;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 9px 12px !important;
+
+  &:hover {
+    background-color: #dd9f27;
+    color: #4d4d4d;
+  }
+
+  &.disabled {
+    background-color: #f9b126;
+  }
+}

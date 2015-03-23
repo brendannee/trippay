@@ -1,16 +1,7 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     moment = require('moment-timezone');
-
-exports.showAlert = function(msg, type) {
-  $('#alert').html(msg).removeClass().addClass('alert alert-' + (type || 'info')).slideDown();
-};
-
-
-exports.hideAlert = function() {
-  $('#alert').slideUp();
-};
-
+    
 
 exports.formatNote = function(trip) {
   return 'Splitting trip to ' + formatAddress(trip.start_address) + ', ' + formatCityState(trip.start_address) + ' on ' + formatDateTime(trip.started_at);
@@ -22,13 +13,13 @@ exports.formatCost = function(cost) {
 };
 
 
-exports.calculateTripCost = function(trip, settings) {
+exports.calculateTripCost = function(trip, rate) {
   if(!trip.distance) {
     return 0;
-  } else if(!settings.rate) {
+  } else if(!rate) {
     return 0;
   } else {
-    return trip.distance * settings.rate;
+    return trip.distance * rate;
   }
 };
 
@@ -47,6 +38,30 @@ exports.formatTrip = function(trip, idx, trips) {
     nextTrip: (idx > 0) ? trips[idx - 1].id : null,
     prevTrip: (idx < (trips.length -1)) ? trips[idx + 1].id : null
   });
+};
+
+
+exports.substringMatcher = function(strs) {
+  //for Typeahead
+  return function findMatches(q, cb) {
+    // an array that will be populated with substring matches
+    var matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    var substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        // the typeahead jQuery plugin expects suggestions to a
+        // JavaScript object, refer to typeahead docs for more info
+        matches.push({ value: str });
+      }
+    });
+
+    cb(matches);
+  };
 };
 
 

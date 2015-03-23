@@ -20,7 +20,7 @@ exports.createExpense = function(req, res, next) {
     };
 
     if(friend.id) {
-      expense.user_id = friend.id
+      expense.user_id = friend.id;
     } else if(friend.display_name.indexOf('@') !== -1) {
       //send as email
       expense.email = friend.display_name;
@@ -31,7 +31,7 @@ exports.createExpense = function(req, res, next) {
 
     postExpense(expense, cb);
   }, function(e, results) {
-    if(e) return next(e)
+    if(e) return next(e);
 
     db.createExpense({
       user_id: req.session.automatic_id,
@@ -78,7 +78,13 @@ exports.getFriends = function(req, res, next) {
     if(body && body.data) {
       res.json(body.data);
     } else {
-      return next(new Error('Unable to get friends'));
+      var error;
+      if(body && body.error) {
+        error = new Error(body.error.message);
+      } else {
+        error = new Error('Unable to get friends');
+      }
+      return next(error);
     }
   });
 };
@@ -95,7 +101,13 @@ exports.getMe = function(req, res, next) {
     if(body && body.data) {
       res.json(body.data);
     } else {
-      return next(new Error('Unable to get user profile'));
+      var error;
+      if(body && body.error) {
+        error = new Error(body.error.message);
+      } else {
+        error = new Error('Unable to get user profile');
+      }
+      return next(error);
     }
   });
 };

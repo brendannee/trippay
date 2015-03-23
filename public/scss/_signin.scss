@@ -1,0 +1,21 @@
+.sign-in {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  margin-left: -145px;
+  width: 290px;
+
+  .btn.disabled {
+    opacity: 0.3;
+  }
+}
+
+.sign-in-venmo .btn,
+.sign-in-automatic .btn {
+  text-align: left;
+  padding-left: 34px !important;
+}
+
+.sign-in-venmo {
+  padding-top: 10px;
+}

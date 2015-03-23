@@ -69,8 +69,6 @@ exports.redirectVenmo = function (req, res, next) {
 
     req.session.venmo_access_token = token.token.access_token;
     req.session.venmo_user_id = token.token.user.id;
-    console.log(req.session.venmo_access_token);
-    console.log(req.session.venmo_user_id);
 
     res.redirect('/');
   });

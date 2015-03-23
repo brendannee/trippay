@@ -1,5 +1,8 @@
 var _ = require('underscore'),
-    polyline = require('polyline');
+    polyline = require('polyline'),
+    map,
+    line,
+    markers = [];
 
 require('mapbox.js');
 
@@ -7,9 +10,11 @@ require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiYXV0b21hdGljIiwiYSI6IldFaGdQa2MifQ.Q-jIc0EjcdTTft6zJVLw-A';
 
 
-exports.renderMap = function(trip) {
-  var map = L.mapbox.map('map', 'automatic.idonii25', {attributionControl: false, zoomControl: false}),
-      start = [trip.start_location.lat, trip.start_location.lon],
+exports.updateMap = function(trip) {
+  if(!map) {
+    map = L.mapbox.map('map', 'automatic.idonii25', {attributionControl: false, zoomControl: false});
+  }
+  var start = [trip.start_location.lat, trip.start_location.lon],
       end = [trip.end_location.lat, trip.end_location.lon],
       lineStyle = {color: '#08b1d5', opacity: 0.9},
       iconStyle = {
@@ -23,6 +28,14 @@ exports.renderMap = function(trip) {
       startIcon = L.icon(_.extend(iconStyle, {iconUrl: '/images/marker_start.png'})),
       endIcon = L.icon(_.extend(iconStyle, {iconUrl: '/images/marker_end.png'}));
 
+  //clear old map
+  if(line) {
+    map.removeLayer(line);
+  }
+  markers.forEach(function(marker) {
+    map.removeLayer(marker);
+  });
+
   if(trip.path) {
     line = L.polyline(polyline.decode(trip.path), lineStyle);
   } else {
@@ -31,13 +44,13 @@ exports.renderMap = function(trip) {
 
   line.addTo(map);
 
-  map.fitBounds(line.getBounds(), {padding: [10, 10]});
+  map.fitBounds(line.getBounds(), {padding: [30, 30]});
 
-  L.marker(start, {title: 'Start Location', icon: startIcon})
+  markers.push(L.marker(start, {title: 'Start Location', icon: startIcon})
     .bindPopup(trip.startAddressFormatted + '<br>' + trip.startAddressCityState + ' ' + trip.startDateTime)
-    .addTo(map);
+    .addTo(map));
 
-  L.marker(end, {title: 'End Location', icon: endIcon})
+  markers.push(L.marker(end, {title: 'End Location', icon: endIcon})
     .bindPopup(trip.endAddressFormatted + '<br>' + trip.endAddressCityState + ' ' + trip.endDateTime)
-    .addTo(map);
+    .addTo(map));
 };

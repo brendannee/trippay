@@ -1,0 +1,14 @@
+.loading {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  margin-left: -100px;
+  width: 200px;
+  text-align: center;
+  font-size: 20px;
+
+  .spinner {
+    font-size: 2em;
+    margin-top: 80px;
+  }
+}
