@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var transform = require('vinyl-transform');
+var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browserify = require('browserify');
 var reactify = require('reactify');
@@ -15,7 +15,7 @@ function bundle() {
   return bundler.bundle()
     // log errors
     .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
-    .pipe(require('vinyl-source-stream')('index.js'))
+    .pipe(source('index.js'))
     // build sourcemaps
     .pipe(require('vinyl-buffer')())
     .pipe(plugins.sourcemaps.init({loadMaps: true})) // loads map from browserify file
@@ -74,14 +74,11 @@ gulp.task('js:compress', ['js:browserify'], function() {
 
 
 gulp.task('js:browserify', function() {
-  var browserified = transform(function(filename) {
-    var b = browserify(filename);
-    b.transform(reactify);
-    return b.bundle();
-  });
+  var b = browserify('./public/javascripts/index.js')
+    .transform(reactify);
 
-  return gulp.src(['./public/javascripts/index.js'])
-    .pipe(browserified)
+  b.bundle()
+    .pipe(source('index.js'))
     .pipe(gulp.dest('./public/dest'));
 });
 
@@ -109,11 +106,13 @@ gulp.task('develop', function() {
   gulp.watch(['public/scss/**/*.scss'], ['scss:develop']);
 
   //watch for jsx changes
-  gulp.watch(['public/jsx/**/*.jsx'], ['js:develop']);
+  gulp.watch([
+    'public/jsx/**/*.jsx',
+    'public/javascripts/**/*.js'
+  ], ['js:develop']);
 
   //watch for front-end changes
   gulp.watch([
-    'public/javascripts/**/*.js',
     'public/dest/**/*.js',
     'public/css/**/*.css',
     'public/images/**/*',
