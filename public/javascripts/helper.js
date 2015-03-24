@@ -1,7 +1,7 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     moment = require('moment-timezone');
-    
+
 
 exports.formatNote = function(trip) {
   return 'Splitting trip to ' + formatAddress(trip.start_address) + ', ' + formatCityState(trip.start_address) + ' on ' + formatDateTime(trip.started_at);
@@ -35,8 +35,8 @@ exports.formatTrip = function(trip, idx, trips) {
     startDateTime: formatDateTime(trip.started_at),
     endDateTime: formatDateTime(trip.ended_at),
     distance: m_to_mi(trip.distance_m),
-    nextTrip: (idx > 0) ? trips[idx - 1].id : null,
-    prevTrip: (idx < (trips.length -1)) ? trips[idx + 1].id : null
+    nextTrip: trip.nextTrip || ((idx > 0) ? trips[idx - 1].id : null),
+    prevTrip: trip.prevTrip || ((idx < (trips.length -1)) ? trips[idx + 1].id : null)
   });
 };
 

@@ -22,14 +22,13 @@ module.exports = React.createClass({
         url: this.props.url + '?page=' + this.state.page,
         dataType: 'json',
         success: function(data) {
+          var currentTrips = this.state.trips;
           if(this.state.trips.length && data.length) {
-            var currentTrips = this.state.trips;
             _.last(currentTrips).prevTrip = _.first(data).id;
             _.first(data).nextTrip = _.last(currentTrips).id;
-            this.setState({trips: currentTrips});
           }
 
-          var trips = this.state.trips.concat(data.map(helper.formatTrip));
+          var trips = currentTrips.concat(data.map(helper.formatTrip));
           var page = (data.length) ? this.state.page + 1 : undefined;
 
           this.setState({
@@ -63,6 +62,11 @@ module.exports = React.createClass({
     this.setState({
       currentTrip: _.findWhere(this.state.trips, {id: tripID})
     });
+
+    if(!currentTrip.prevTrip) {
+      //load more trips
+      this.loadTripsFromServer();
+    }
   },
   selectTrip: function() {
     if(!this.state.currentTrip) {

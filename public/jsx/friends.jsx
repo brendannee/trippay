@@ -107,6 +107,11 @@ module.exports = React.createClass({
     }
 
     if(!friend) {
+      //must be an email or phone number
+      if(friendName.indexOf('@') === -1 && friendName.replace(/\D/g,'') < 2000000) {
+        return alert('Please enter a valid email or phone number');
+      }
+
       friend = {
         display_name: friendName,
         profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif'
