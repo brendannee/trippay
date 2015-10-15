@@ -1,12 +1,15 @@
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
+var babelify = require('babelify');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var plugins = require("gulp-load-plugins")();
 
 
-var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args).transform(reactify));
+var bundler = watchify(browserify('./public/javascripts/index.js', watchify.args)
+  .transform(babelify)
+  .transform(reactify));
 bundler.on('update', bundle);
 bundler.on('log', plugins.util.log);
 
@@ -75,6 +78,7 @@ gulp.task('js:compress', ['js:browserify'], function() {
 
 gulp.task('js:browserify', function() {
   var b = browserify('./public/javascripts/index.js')
+    .transform(babelify)
     .transform(reactify);
 
   b.bundle()
@@ -99,32 +103,23 @@ gulp.task('css:copy', function() {
 
 
 gulp.task('develop', function() {
-  var server = plugins.liveServer.new('bin/www');
-  server.start();
+  plugins.livereload.listen();
 
-  //watch for sass changes
-  gulp.watch(['public/scss/**/*.scss'], ['scss:develop']);
+  require('nodemon')({
+    script: 'bin/www',
+    stdout: true
+  }).on('readable', function() {
+    this.stdout.on('data', function(chunk) {
+      if (/^listening/.test(chunk)) {
+        plugins.livereload.reload();
+      }
+      process.stdout.write(chunk);
+    });
+  });
 
-  //watch for jsx changes
-  gulp.watch([
-    'public/jsx/**/*.jsx',
-    'public/javascripts/**/*.js'
-  ], ['js:develop']);
+  gulp.watch('public/**/*.scss', ['scss:develop']);
 
-  //watch for front-end changes
-  gulp.watch([
-    'public/dest/**/*.js',
-    'public/css/**/*.css',
-    'public/images/**/*',
-    'views/**/*.jade'
-  ], server.notify);
-
-  //watch for back-end js changes
-  gulp.watch([
-    'app.js',
-    'routes/**/*.js',
-    'libs/**/*.js'
-  ], server.start);
+  gulp.watch('public/**/!(dest)/**/*.+(jsx|js)', ['js:develop']);
 });
 
 

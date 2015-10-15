@@ -53,6 +53,7 @@
     "underscore": "~1.8.2",
     "vinyl-source-stream": "~1.1.0",
     "watchify": "~2.6.0"
+    "babelify": "6.3.0",
   },
   "engines": {
     "node": "0.12.x"
@@ -65,8 +66,12 @@
   "devDependencies": {
     "connect-livereload": "~0.5.3",
     "gulp-jshint": "~1.9.4",
-    "gulp-live-server": "~0.0.6",
     "gulp-scss-lint": "~0.1.10",
     "vinyl-buffer": "~1.0.0"
+    "gulp-livereload": "3.8.1",
+    "nodemon": "1.7.1"
+  },
+  "jshintConfig": {
+    "esnext": true
   }
 }
