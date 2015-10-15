@@ -1,14 +1,19 @@
 var React = require('react');
 
-module.exports = React.createClass({
-  pluralize: function(word, quantity) {
+module.exports = class Success extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  pluralize(word, quantity) {
     if(quantity === 1) {
       return word;
     } else {
       return word + 's';
     }
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <div className="hide">
         <h1 className="success-header">Success</h1>
@@ -18,4 +23,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};

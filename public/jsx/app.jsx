@@ -1,27 +1,61 @@
 var React = require('react');
-var $ = jQuery = require('jquery');
+var ReactDOM = require('react-dom');
+var $ = require('jquery');
 var helper = require('../javascripts/helper');
 var Trips = require('../jsx/trips.jsx');
 var Friends = require('../jsx/friends.jsx');
 var Success = require('../jsx/success.jsx');
+window.jQuery = $;
 
 require('bootstrap-sass');
 require('bootstrap-slider');
 require('typeahead.js');
 
 
-var App = React.createClass({
-  getInitialState: function() {
-    return {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       rate: 0.57,
       selectedTrip: {},
       friendCount: 0
     };
-  },
-  componentDidMount: function() {
+
+    this.selectTrip = (trip) => {
+      this.setState({selectedTrip: trip});
+      this.showFriendsView();
+    };
+
+    this.setRate = (rate) => {
+      this.setState({rate: rate});
+      this.saveSettingsToServer({rate: rate});
+    };
+
+    this.showTripView = () => {
+      $(ReactDOM.findDOMNode(this.refs.friends)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.success)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.trips)).removeClass('hide').slideDown();
+    };
+
+    this.showFriendsView = () => {
+      $(ReactDOM.findDOMNode(this.refs.trips)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.success)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.friends)).removeClass('hide').slideDown();
+    };
+
+    this.showSuccessView = (friendCount) => {
+      this.setState({friendCount: friendCount});
+      $(ReactDOM.findDOMNode(this.refs.trips)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.friends)).slideUp();
+      $(ReactDOM.findDOMNode(this.refs.success)).removeClass('hide').slideDown();
+    };
+  }
+
+  componentDidMount() {
     this.loadSettingsFromServer();
-  },
-  loadSettingsFromServer: function() {
+  }
+
+  loadSettingsFromServer() {
     $.ajax({
       url: this.props.settingsURL,
       dataType: 'json',
@@ -34,8 +68,9 @@ var App = React.createClass({
         console.error(this.props.settingsURL, status, err.toString());
       }.bind(this)
     });
-  },
-  saveSettingsToServer: function(settings) {
+  }
+
+  saveSettingsToServer(settings) {
     $.ajax({
       url: this.props.settingsURL,
       method: 'PUT',
@@ -44,32 +79,9 @@ var App = React.createClass({
         console.error(this.props.settingsURL, status, err.toString());
       }.bind(this)
     });
-  },
-  selectTrip: function(trip) {
-    this.setState({selectedTrip: trip});
-    this.showFriendsView();
-  },
-  setRate: function(rate) {
-    this.setState({rate: rate});
-    this.saveSettingsToServer({rate: rate});
-  },
-  showTripView: function() {
-    $(this.refs.friends.getDOMNode()).slideUp();
-    $(this.refs.success.getDOMNode()).slideUp();
-    $(this.refs.trips.getDOMNode()).removeClass('hide').slideDown();
-  },
-  showFriendsView: function() {
-    $(this.refs.trips.getDOMNode()).slideUp();
-    $(this.refs.success.getDOMNode()).slideUp();
-    $(this.refs.friends.getDOMNode()).removeClass('hide').slideDown();
-  },
-  showSuccessView: function(friendCount) {
-    this.setState({friendCount: friendCount});
-    $(this.refs.trips.getDOMNode()).slideUp();
-    $(this.refs.friends.getDOMNode()).slideUp();
-    $(this.refs.success.getDOMNode()).removeClass('hide').slideDown();
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <div>
         <Trips url="/api/trips" rate={this.state.rate} selectTrip={this.selectTrip} ref="trips" />
@@ -78,9 +90,9 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
-React.render(
+ReactDOM.render(
   <App settingsURL='/api/settings' />,
   document.getElementById('app')
 );

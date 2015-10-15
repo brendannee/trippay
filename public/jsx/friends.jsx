@@ -6,20 +6,121 @@ var helper = require('../javascripts/helper');
 
 require('bootstrap-slider');
 
-module.exports = React.createClass({
-  getInitialState: function() {
-    return {
+module.exports = class Friends extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       friends: [],
       selectedFriends: []
+    }
+
+    this.addFriend = (e) => {
+      e.preventDefault();
+
+      var friendName = $(ReactDOM.findDOMNode(this.refs.friendEmail)).typeahead('val'),
+          friend = _.findWhere(this.state.friends, {display_name: friendName});
+
+      if(!friendName) {
+        return alert('Enter a friend name');
+      }
+
+      if(!friend) {
+        //must be an email or phone number
+        if(friendName.indexOf('@') === -1 && friendName.replace(/\D/g,'') < 2000000) {
+          return alert('Please enter a valid email or phone number');
+        }
+
+        friend = {
+          display_name: friendName,
+          profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif'
+        };
+      }
+
+      this.state.selectedFriends.push(friend);
+      this.setState({selectedFriends: this.state.selectedFriends});
     };
-  },
-  componentDidMount: function() {
+
+    this.getCostPerPerson = () => {
+      var totalCost = helper.calculateTripCost(this.props.trip, this.props.rate);
+
+      return totalCost / this.state.selectedFriends.length;
+    };
+
+    this.removeFriend = (friend) => {
+      this.setState({
+        selectedFriends: _.reject(this.state.selectedFriends, function(f) {
+          return f.display_name === friend.display_name;
+        })
+      });
+    };
+
+    this.includeSelf = () => {
+      if(this.refs.includeSelf.checked) {
+        this.state.selectedFriends.unshift(this.state.me);
+      } else {
+        this.state.selectedFriends.shift();
+      }
+      this.setState({selectedFriends: this.state.selectedFriends});
+    };
+
+    this.requestPayment = () => {
+      var costPerPerson = this.getCostPerPerson(),
+          friendsToCharge = _.reject(this.state.selectedFriends, function(friend) {
+            return !!friend.is_me;
+          });
+
+      if(!friendsToCharge.length) {
+        return alert('Select at least one friend to charge');
+      }
+
+      $(ReactDOM.findDOMNode(this.refs.requestPayment)).prop('disabled', true);
+
+      $.ajax({
+        url: this.props.expenseURL,
+        method: 'POST',
+        data: {
+          tripId: this.props.trip.id,
+          friends: JSON.stringify(friendsToCharge),
+          costPerPerson: costPerPerson,
+          note: helper.formatNote(this.props.trip)
+        },
+        success: function(data) {
+          //check if any individual expense requests failed
+          var error = _.some(data, function(response) {
+            return !!response.error;
+          });
+
+          if(!error) {
+            this.props.showSuccessView(friendsToCharge.length);
+          } else {
+            friendsToCharge.forEach(function(friend, idx) {
+              if(data[idx].error) {
+                friend.result = 'Failed: ' + data[idx].error.message;
+                friend.error = true;
+              } else {
+                friend.result = 'Venmo Request Succeeded';
+                friend.error = false;
+              }
+            });
+            this.setState({selectedFriends: this.state.selectedFriends});
+          }
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.expenseURL, status, err.toString());
+        }.bind(this)
+      });
+    };
+  }
+
+  componentDidMount() {
     this.loadFriendsFromServer();
     this.loadMeFromServer();
 
     this.initializeSlider();
-  },
-  loadFriendsFromServer: function() {
+  }
+
+  loadFriendsFromServer() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -33,8 +134,9 @@ module.exports = React.createClass({
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
-  },
-  loadMeFromServer: function() {
+  }
+
+  loadMeFromServer() {
     $.ajax({
       url: this.props.meURL,
       dataType: 'json',
@@ -47,9 +149,9 @@ module.exports = React.createClass({
         console.error(this.props.meURL, status, err.toString());
       }.bind(this)
     });
-  },
-  initializeSlider: function() {
-    var self = this;
+  }
+
+  initializeSlider() {
     $('.mileage-rate-slider').slider({
       min: 0,
       max: 1,
@@ -57,12 +159,13 @@ module.exports = React.createClass({
       value: this.props.rate,
       tooltip: 'hide'
     }).on('change', function() {
-      self.props.setRate(parseFloat($(this).slider('getValue')));
-    }).on('slideStop', function() {
-      self.props.setRate(parseFloat($(this).slider('getValue')));
-    });
-  },
-  initializeTypeahead: function() {
+      this.props.setRate(parseFloat($('.mileage-rate-slider').slider('getValue')));
+    }.bind(this)).on('slideStop', function() {
+      this.props.setRate(parseFloat($('.mileage-rate-slider').slider('getValue')));
+    }.bind(this));
+  }
+
+  initializeTypeahead() {
     var tokens = this.state.friends.map(function(friend) {
       return friend.display_name;
     });
@@ -82,107 +185,17 @@ module.exports = React.createClass({
         .typeahead('val', '')
         .typeahead('close');
     }.bind(this));
-  },
-  getCostPerPerson: function() {
-    var totalCost = helper.calculateTripCost(this.props.trip, this.props.rate);
+  }
 
-    return totalCost / this.state.selectedFriends.length;
-  },
-  includeSelf: function() {
-    if(this.refs.includeSelf.getDOMNode().checked) {
-      this.state.selectedFriends.unshift(this.state.me);
-    } else {
-      this.state.selectedFriends.shift();
-    }
-    this.setState({selectedFriends: this.state.selectedFriends});
-  },
-  addFriend: function(e) {
-    e.preventDefault();
-
-    var friendName = $(this.refs.friendEmail.getDOMNode()).typeahead('val'),
-        friend = _.findWhere(this.state.friends, {display_name: friendName});
-
-    if(!friendName) {
-      return alert('Enter a friend name');
-    }
-
-    if(!friend) {
-      //must be an email or phone number
-      if(friendName.indexOf('@') === -1 && friendName.replace(/\D/g,'') < 2000000) {
-        return alert('Please enter a valid email or phone number');
-      }
-
-      friend = {
-        display_name: friendName,
-        profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif'
-      };
-    }
-
-    this.state.selectedFriends.push(friend);
-    this.setState({selectedFriends: this.state.selectedFriends});
-  },
-  removeFriend: function(friend) {
-    this.setState({
-      selectedFriends: _.reject(this.state.selectedFriends, function(f) {
-        return f.display_name === friend.display_name;
-      })
-    });
-  },
-  friendList: function() {
-    return this.state.selectedFriends.map(function(friend, idx) {
+  friendList() {
+    return this.state.selectedFriends.map((friend, idx) => {
       return (
         <Friend friend={friend} getCostPerPerson={this.getCostPerPerson} removeFriend={this.removeFriend} key={idx} />
       );
-    }.bind(this));
-  },
-  requestPayment: function() {
-    var costPerPerson = this.getCostPerPerson(),
-        friendsToCharge = _.reject(this.state.selectedFriends, function(friend) {
-          return !!friend.is_me;
-        });
-
-    if(!friendsToCharge.length) {
-      return alert('Select at least one friend to charge');
-    }
-
-    $(this.refs.requestPayment.getDOMNode()).prop('disabled', true);
-
-    $.ajax({
-      url: this.props.expenseURL,
-      method: 'POST',
-      data: {
-        tripId: this.props.trip.id,
-        friends: JSON.stringify(friendsToCharge),
-        costPerPerson: costPerPerson,
-        note: helper.formatNote(this.props.trip)
-      },
-      success: function(data) {
-        //check if any individual expense requests failed
-        var error = _.some(data, function(response) {
-          return !!response.error;
-        });
-
-        if(!error) {
-          this.props.showSuccessView(friendsToCharge.length);
-        } else {
-          friendsToCharge.forEach(function(friend, idx) {
-            if(data[idx].error) {
-              friend.result = 'Failed: ' + data[idx].error.message;
-              friend.error = true;
-            } else {
-              friend.result = 'Venmo Request Succeeded';
-              friend.error = false;
-            }
-          });
-          this.setState({selectedFriends: this.state.selectedFriends});
-        }
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.expenseURL, status, err.toString());
-      }.bind(this)
     });
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <div className="hide">
         <h1 className="split-it-up">Split it up</h1>
@@ -213,14 +226,19 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};
 
 
-var Friend = React.createClass({
-  removeFriend: function() {
-    this.props.removeFriend(this.props.friend);
-  },
-  render: function() {
+class Friend extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.removeFriend = () => {
+      this.props.removeFriend(this.props.friend);
+    };
+  }
+
+  render() {
     return (
       <div className={classNames({
           friend: true,
@@ -235,4 +253,4 @@ var Friend = React.createClass({
       </div>
     );
   }
-});
+}

@@ -5,17 +5,39 @@ var _ = require('underscore');
 var helper = require('../javascripts/helper');
 var map = require('../javascripts/map');
 
-module.exports = React.createClass({
-  getInitialState: function() {
-    return {
+module.exports = class Trips extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       page: 1,
       trips: []
     };
-  },
-  componentDidMount: function() {
+
+    this.renderTrip = (tripID) => {
+      this.setState({
+        currentTrip: _.findWhere(this.state.trips, {id: tripID})
+      });
+
+      if(!this.state.currentTrip.prevTrip) {
+        //load more trips
+        this.loadTripsFromServer();
+      }
+    };
+
+    this.selectTrip = () => {
+      if(!this.state.currentTrip) {
+        return alert('Please choose a trip');
+      }
+      this.props.selectTrip(this.state.currentTrip);
+    };
+  }
+
+  componentDidMount() {
     this.loadTripsFromServer();
-  },
-  loadTripsFromServer: function() {
+  }
+
+  loadTripsFromServer() {
     if(this.shouldLoad()) {
       this.setState({loading: true});
       $.ajax({
@@ -44,11 +66,13 @@ module.exports = React.createClass({
         }.bind(this)
       });
     }
-  },
-  shouldLoad: function() {
+  }
+
+  shouldLoad() {
     return this.state.loading !== true && this.state.page;
-  },
-  getLoading: function() {
+  }
+
+  getLoading() {
     if(this.state.loading !== false) {
       return (
         <div className="loading">
@@ -57,24 +81,9 @@ module.exports = React.createClass({
         </div>
       );
     }
-  },
-  renderTrip: function(tripID) {
-    this.setState({
-      currentTrip: _.findWhere(this.state.trips, {id: tripID})
-    });
+  }
 
-    if(!currentTrip.prevTrip) {
-      //load more trips
-      this.loadTripsFromServer();
-    }
-  },
-  selectTrip: function() {
-    if(!this.state.currentTrip) {
-      return alert('Please choose a trip');
-    }
-    this.props.selectTrip(this.state.currentTrip);
-  },
-  render: function() {
+  render() {
     return (
       <div>
         <h1 className="select-a-trip">Select a Trip</h1>
@@ -84,22 +93,29 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};
 
 
-var Trip = React.createClass({
-  componentDidUpdate: function() {
+class Trip extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.prevTrip = () => {
+      this.props.renderTrip(this.props.trip.prevTrip);
+    };
+
+    this.nextTrip = () => {
+      this.props.renderTrip(this.props.trip.nextTrip);
+    };
+  }
+
+  componentDidUpdate() {
     if(this.props.trip) {
       map.updateMap(this.props.trip);
     }
-  },
-  prevTrip: function() {
-    this.props.renderTrip(this.props.trip.prevTrip);
-  },
-  nextTrip: function() {
-    this.props.renderTrip(this.props.trip.nextTrip);
-  },
-  render: function() {
+  }
+
+  render() {
     if(!this.props.trip) {
       return (<div className="trip"></div>);
     }
@@ -139,4 +155,4 @@ var Trip = React.createClass({
       </div>
     );
   }
-});
+}

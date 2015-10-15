@@ -44,5 +44,8 @@ exports.check_dev_token = function(req, res, next) {
   if(process.env.VENMO_USER_ID) {
     req.session.venmo_user_id = process.env.VENMO_USER_ID;
   }
+  if(process.env.VENMO_ACCESS_TOKEN) {
+    req.session.venmo_access_token = process.env.VENMO_ACCESS_TOKEN;
+  }
   next();
 };
